@@ -1,0 +1,126 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+
+// ISLAND REACT
+import SubscriptionFlow from "../components/islands/SubscriptionFlow";
+
+// ICONS 
+import IconCheck from "@components/icons/IconCheck.astro";
+import {
+  hero,
+  inscription,
+  garanties,
+} from "../data/inscriptionsContent";
+
+---
+
+<BaseLayout
+  title="Inscriptions — TCGV"
+  description="Rejoignez le Tennis Club du Grand Versailles : formules individuelles et familiales, garanties et inscription."
+>
+  <!-- HERO -->
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark=Inscriptions
+    watermarkColor="text-grey/30"
+    variant="premium"
+  >
+  </PageHero>
+
+  <PageSection
+    title="Rejoignez le Club"
+    subtitle={`Choisissez la formule qui vous convient, remplissez vos informations et validez votre inscription. Notre équipe vous contactera dans les 24h pour finaliser votre adhésion et organiser votre visite du club.`}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+    <div class="reveal reveal--body mt-4 lg:mt-8 flex flex-wrap items-center justify-center gap-4">
+      {hero.reassurance.map((item) => (
+        <div class="inline-flex items-center gap-2 text-sm text-clubwhite">
+          <span class="grid size-6 place-items-center rounded-full bg-clubwhite text-club">
+            <IconCheck class="tcgv-icon size-4" aria-hidden="true" />
+          </span>
+          <span>{item}</span>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- INSCRIPTION -->
+  <PageSection
+    title={inscription.title}
+    subtitle={inscription.subtitle}
+    watermark="Inscription"
+    tone="muted"
+    premiumBg="none"
+    align="left"
+  >
+    <div class="reveal reveal--body mx-auto mt-4 lg:mt-8 max-w-full">
+      <SubscriptionFlow client:visible />
+    </div>
+  </PageSection>
+
+  <!-- GARANTIES + FAQ -->
+  <PageSection
+    title={garanties.title}
+    align="left"
+    tone="premium"
+    premiumBg="none"
+    premiumOverlay="club"
+    overlayDir="to-top"
+    overlayStrength="soft"
+  >
+    <div class="reveal reveal--body">
+      <div class="mt-4 lg:mt-8 grid gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {garanties.items.map((item) => (
+          <div class="reveal reveal--card">
+            <article class="card-premium group h-full p-5 md:p-6 text-center">
+              <div class="mx-auto mb-4 grid size-14 place-items-center rounded-full transition-colors duration-300 bg-club/10 text-club/70 group-hover:text-club">
+                <item.icon class="tcgv-icon size-6" aria-hidden="true" />
+              </div>
+              <h3 class="text-lg font-semibold tracking-tight">{item.title}</h3>
+              <p class="mt-3 text-sm/6 text-muted-foreground">{item.description}</p>
+            </article>
+          </div>
+        ))}
+      </div>
+    </div>
+  </PageSection>
+
+    <PageSection
+    watermark="Questions"
+    tone="default"
+  >
+    <div class="reveal reveal--body">
+      <div class="reveal reveal--body">
+        <div class="card-premium p-6 md:p-8">
+          <h3 class="text-xl font-semibold tracking-tight text-center">{garanties.faqTitle}</h3>
+          <div class="mt-6 grid gap-6 md:grid-cols-2 text-sm">
+            {garanties.faq.map((item) => (
+              <div class="space-y-2">
+                <p class="font-semibold">{item.question}</p>
+                <p class="text-muted-foreground">{item.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title="Une question avant de vous décider ?"
+    body="Nous sommes à votre disposition pour vous apporter toutes les précisions nécessaires et vous aider à choisir la formule la plus adaptée à votre pratique."
+    note="Réponse personnalisée sous 48h"
+    ctas={[
+      { label: "Contacter le club", href: "/contact", variant: "primary" }
+    ]}
+  />
+</BaseLayout>

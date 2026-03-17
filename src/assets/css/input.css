@@ -1,0 +1,880 @@
+@config "../../../tailwind.config.js";
+
+/* stylelint-disable-next-line CssSyntaxError */
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #c3481d;
+  --color-primary-light: #e86e42;
+  --color-club: #008242;
+  --color-club-light: #2ebf68;
+  --color-ball: #f1c40f;
+  --color-grey: #333;
+  --color-clubwhite: #f5f5f7;
+  --color-clubblack: #0a0a0a;
+
+  --font-montserrat: "Montserrat", serif;
+  --font-opensans: "Open Sans", sans-serif;
+  --font-greatvibes: "Great Vibes", cursive;
+}
+
+/* ======================================================
+   UTILITIES (legacy + global helpers)
+====================================================== */
+@layer utilities {
+  :root {
+    --tcgv-primary: var(--color-primary);
+    --tcgv-primary-light: var(--color-primary-light);
+    --tcgv-club: var(--color-club);
+    --tcgv-club-light: var(--color-club-light);
+    --tcgv-ball: var(--color-ball);
+    --tcgv-text: var(--color-grey);
+    --tcgv-bg: var(--color-clubwhite);
+    --tcgv-border: color-mix(in oklab, var(--color-clubblack) 12%, transparent);
+    --tcgv-muted: color-mix(in oklab, var(--color-grey) 20%, transparent);
+    --tcgv-foreground-muted: color-mix(
+      in oklab,
+      var(--tcgv-text) 85%,
+      transparent
+    );
+    --header-h: 64px;
+
+    --surface-default: var(--color-clubwhite);
+    --surface-muted: #e6e6e6;
+    --surface-premium: var(--color-clubwhite);
+
+    --surface-border: rgba(0, 0, 0, 0.06);
+  }
+
+  /* smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* ---------- Hamburger (legacy) ---------- */
+  .hamburger--frosted {
+    position: fixed;
+    z-index: 50;
+
+    top: calc(0.75rem + env(safe-area-inset-top));
+    left: 1rem;
+
+    width: 44px;
+    height: 44px;
+
+    place-items: center;
+    border-radius: 100%;
+
+    background: color-mix(in oklab, var(--color-clubwhite) 72%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid
+      color-mix(in oklab, var(--color-clubblack) 12%, transparent);
+
+    box-shadow:
+      0 10px 24px color-mix(in oklab, var(--color-clubblack) 14%, transparent),
+      0 2px 6px color-mix(in oklab, var(--color-clubblack) 10%, transparent);
+
+    transition:
+      transform 160ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .hamburger--frosted:hover {
+      background: color-mix(in oklab, var(--color-clubwhite) 84%, transparent);
+      border-color: color-mix(
+        in oklab,
+        var(--color-clubblack) 16%,
+        transparent
+      );
+    }
+  }
+
+  .hamburger--frosted:active {
+    transform: scale(0.98);
+  }
+
+  .hamburger--frosted:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--color-ball) 70%, transparent),
+      0 10px 24px color-mix(in oklab, var(--color-clubblack) 14%, transparent),
+      0 2px 6px color-mix(in oklab, var(--color-clubblack) 10%, transparent);
+  }
+
+  .hamburger__bars {
+    position: relative;
+    width: 20px;
+    height: 16px;
+    display: block;
+  }
+
+  .hamburger__bars .bar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-grey);
+    transition:
+      transform 260ms ease,
+      opacity 220ms ease;
+    transform-origin: center;
+  }
+
+  .bar-top {
+    top: 0;
+  }
+  .bar-middle {
+    top: 50%;
+    transform: translateY(-1px);
+  }
+  .bar-bottom {
+    bottom: 0;
+  }
+
+  .hamburger.open .bar-top {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .hamburger.open .bar-middle {
+    opacity: 0;
+  }
+
+  .hamburger.open .bar-bottom {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  /* Header sticky global */
+  #siteHeader.header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition:
+      opacity 0.3s ease,
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  #siteHeader.header-sticky.header-scrolled {
+    opacity: 0.82;
+    background-color: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  #siteHeader.header-sticky.header-scrolled:hover {
+    opacity: 1;
+  }
+
+  /* Base arrow */
+  #navMenu .arrow {
+    transform: rotate(0deg);
+    transition: transform 200ms ease;
+  }
+
+  /* MOBILE (accordion): aria-expanded rotates arrow */
+  #navMenu [data-submenu-trigger][aria-expanded="true"] .arrow {
+    transform: rotate(90deg);
+  }
+
+  /* Navigation desktop dropdown behavior */
+  @media (min-width: 1024px) {
+    #navMenu .navItem:hover > button .arrow,
+    #navMenu .navItem:focus-within > button .arrow {
+      transform: rotate(90deg);
+    }
+
+    #navMenu .navItem {
+      position: relative;
+    }
+
+    #navMenu .navScroll {
+      overflow: visible;
+    }
+
+    #navMenu .navItem > .subList {
+      max-height: none !important;
+      overflow: visible;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px);
+      pointer-events: none;
+
+      transition:
+        opacity 160ms ease,
+        transform 160ms ease,
+        visibility 0s linear 160ms;
+    }
+
+    #navMenu .navItem:hover > .subList,
+    #navMenu .navItem:focus-within > .subList {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+
+      transition:
+        opacity 160ms ease,
+        transform 160ms ease,
+        visibility 0s;
+    }
+
+    /* Hover bridge */
+    #navMenu .navItem::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 100%;
+      height: 12px;
+      width: 220px;
+      pointer-events: auto;
+    }
+  }
+
+  /* Background images */
+  .bg-lb {
+    background-image: var(--tcgv-image-bg);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: cover;
+  }
+
+  .bg-rb {
+    background-image: var(--tcgv-image-bg);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: cover;
+  }
+
+  /* Border gradient */
+  .border-l-gradient-club {
+    border-left: 4px solid transparent;
+    border-image: linear-gradient(to bottom, #208d4e, rgba(0, 0, 0, 0)) 1;
+    border-image-slice: 1;
+  }
+
+  /* Underline animate */
+  .underline-animate {
+    position: relative;
+  }
+
+  .underline-animate::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    height: 2px;
+    width: 0%;
+    background-color: #208d4e;
+    transition:
+      width 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.5s ease-in-out;
+    opacity: 0.7;
+  }
+
+  .from-left.underline-animate::after {
+    left: 0;
+  }
+  .from-center.underline-animate::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .from-right.underline-animate::after {
+    right: 0;
+    left: auto;
+  }
+
+  /* mode desktop-only */
+  .group:hover .underline-animate:not(.underline-animate--desktop)::after {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .group:hover .underline-animate.underline-animate--desktop::after {
+      width: 100%;
+    }
+  }
+}
+
+/* ======================================================
+   COMPONENTS (canon + legacy cohabitation)
+   IMPORTANT:
+   - pas de @apply d'une classe custom (tcgv-nav) vers une autre.
+   - on duplique les recettes.
+====================================================== */
+@layer components {
+  /* ---------- NAV CANON ---------- */
+  .tcgv-nav {
+    @apply fixed top-0 left-0 z-40 h-[100dvh] w-full max-w-sm
+           flex flex-col
+           bg-clubwhite px-4 pb-4 pt-4
+           transition-transform duration-500 -translate-x-full
+           lg:sticky lg:top-0 lg:z-40
+           lg:h-16 lg:max-w-none lg:w-full
+           lg:translate-x-0
+           lg:flex-row lg:items-center
+           lg:bg-clubwhite/70 lg:backdrop-blur-md
+           lg:border-b lg:border-clubblack/10
+           lg:shadow-[0_10px_24px_rgba(0,0,0,0.08)]
+           lg:px-0 lg:py-0;
+  }
+
+  .tcgv-nav__inner {
+    @apply w-full max-w-[1280px] min-h-full mx-auto flex flex-col
+           lg:flex-row lg:items-center lg:h-16 px-4;
+  }
+
+  .tcgv-nav__scroll {
+    @apply flex-1 overflow-y-auto overscroll-contain mt-6 pb-6
+           lg:mt-0 lg:pb-0 lg:overflow-visible;
+  }
+
+  .tcgv-nav__submenu {
+    @apply max-h-0 overflow-hidden transition-all duration-500 ease-in-out
+           pl-4 space-y-1
+           lg:pl-0 lg:space-y-0
+           lg:absolute lg:left-1/2 lg:top-full lg:-translate-x-1/2
+           lg:mt-2 lg:min-w-[260px]
+           lg:bg-clubwhite/90 lg:backdrop-blur-md
+           lg:rounded-xl lg:shadow-lg lg:border lg:border-clubblack/10
+           lg:py-2;
+  }
+
+  .tcgv-nav__mobileCtas {
+    @apply lg:hidden mt-auto pt-4 pb-2
+           bg-clubwhite/90 backdrop-blur-md border-t border-clubblack/10;
+  }
+
+  /* ---------- LEGACY ALIASES ---------- */
+  .navContainer {
+    @apply fixed top-0 left-0 z-40 h-[100dvh] w-full max-w-sm
+           flex flex-col
+           bg-clubwhite px-4 pb-4 pt-4
+           transition-transform duration-500 -translate-x-full
+
+           lg:sticky lg:top-0 lg:z-40
+           lg:h-16 lg:max-w-none lg:w-full
+           lg:translate-x-0
+           lg:flex-row lg:items-center
+           lg:bg-clubwhite/70 lg:backdrop-blur-md
+           lg:border-b lg:border-clubblack/10
+           lg:shadow-[0_10px_24px_rgba(0,0,0,0.08)]
+           lg:px-0 lg:py-0;
+  }
+
+  .navScroll {
+    @apply flex-1 overflow-y-auto overscroll-contain mt-6 pb-6
+           lg:mt-0 lg:pb-0 lg:overflow-visible;
+  }
+
+  .subList {
+    @apply max-h-0 overflow-hidden transition-all duration-500 ease-in-out
+           pl-4 space-y-1
+           lg:pl-0 lg:space-y-0
+           lg:absolute lg:left-1/2 lg:top-full lg:-translate-x-1/2
+           lg:mt-2 lg:min-w-[260px]
+           lg:bg-clubwhite/90 lg:backdrop-blur-md
+           lg:rounded-xl lg:shadow-lg lg:border lg:border-clubblack/10
+           lg:py-2;
+  }
+
+  .navCtas {
+    @apply lg:hidden mt-auto pt-4 pb-2
+           bg-clubwhite/90 backdrop-blur-md border-t border-clubblack/10;
+  }
+
+  /* NAV — badge (desktop) */
+  .tcgv-nav-login {
+    @apply px-3 py-1.5 border border-club
+        bg-club text-clubwhite
+          transition-all duration-300 ease-out;
+  }
+
+  .tcgv-nav-login:hover {
+    @apply border-club/50 bg-club-light/10 text-club;
+  }
+
+  .tcgv-nav-login:active {
+    @apply translate-y-0 shadow-sm;
+  }
+
+  /* ---------- GESTION HAUTEUR FEEDS REACT ------ */
+  .tcgv-stable-panel {
+    min-height: 70svh;
+    transition: min-height 200ms ease;
+  }
+
+  .tcgv-no-anchor,
+  .tcgv-no-anchor * {
+    overflow-anchor: none;
+  }
+
+  /* ---------- FOND PAGE/SECTION ---------- */
+  .tcgv-surface {
+    background: var(--surface-default);
+  }
+
+  .tcgv-surface--muted {
+    background: var(--surface-muted);
+  }
+
+  .tcgv-surface--premium {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)),
+      var(--surface-premium);
+  }
+
+  .section-premium {
+    position: relative;
+    isolation: isolate;
+    --premium-img-opacity: 0.28;
+    --premium-bg-image: url("/bg/neutral-bg.webp");
+  }
+
+  .section-premium::before,
+  .section-premium::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .section-premium::before {
+    background-image: var(--premium-bg-image);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: var(--premium-img-opacity);
+  }
+
+  .section-premium::after {
+    background: linear-gradient(
+      var(--premium-dir),
+      color-mix(
+          in oklab,
+          var(--premium-ov-c1) calc(var(--premium-ov-a) * 100%),
+          transparent
+        )
+        0%,
+      color-mix(
+          in oklab,
+          var(--premium-ov-c2) calc(var(--premium-ov-b) * 100%),
+          transparent
+        )
+        100%
+    );
+  }
+
+  .section-content-layer {
+    position: relative;
+    z-index: 1;
+  }
+
+  .premium-bg--court {
+    --premium-bg-image: url("/bg/court-bg.webp");
+  }
+
+  .premium-bg--club {
+    --premium-bg-image: url("/bg/club-bg.webp");
+  }
+
+  .premium-bg--clay {
+    --premium-bg-image: url("/bg/clay-bg.webp");
+  }
+
+  .premium-bg--ball {
+    --premium-bg-image: url("/bg/ball-bg.webp");
+  }
+
+  .premium-bg--neutral {
+    --premium-bg-image: url("/bg/neutral-bg.webp");
+  }
+
+  .premium-bg--none {
+    --premium-bg-image: none;
+    --premium-img-opacity: 0;
+  }
+
+  .premium-ov--primary {
+    --premium-ov-c1: var(--color-clubwhite);
+    --premium-ov-c2: var(--color-primary);
+  }
+
+  .premium-ov--club {
+    --premium-ov-c1: var(--color-clubwhite);
+    --premium-ov-c2: var(--color-club);
+  }
+
+  .premium-ov--ball {
+    --premium-ov-c1: var(--color-clubwhite);
+    --premium-ov-c2: var(--color-ball);
+  }
+
+  .premium-ov--clubblack {
+    --premium-ov-c1: var(--color-clubwhite);
+    --premium-ov-c2: var(--color-clubblack);
+  }
+
+  .premium-ov--mix {
+    --premium-ov-c1: var(--color-club);
+    --premium-ov-c2: var(--color-primary);
+  }
+
+  .premium-dir--to-top {
+    --premium-dir: to top;
+  }
+
+  .premium-dir--to-tl {
+    --premium-dir: to top left;
+  }
+
+  .premium-dir--to-tr {
+    --premium-dir: to top right;
+  }
+
+  .premium-dir--to-bottom {
+    --premium-dir: to bottom;
+  }
+
+  .premium-dir--to-bl {
+    --premium-dir: to bottom left;
+  }
+
+  .premium-dir--to-br {
+    --premium-dir: to bottom right;
+  }
+
+  .premium-str--none {
+    --premium-ov-a: 0;
+    --premium-ov-b: 0;
+  }
+
+  .premium-str--soft {
+    --premium-ov-a: 0.12;
+    --premium-ov-b: 0.35;
+  }
+
+  .premium-str--med {
+    --premium-ov-a: 0.2;
+    --premium-ov-b: 0.55;
+  }
+
+  .premium-str--strong {
+    --premium-ov-a: 0.3;
+    --premium-ov-b: 0.75;
+  }
+
+  @media (max-width: 767px) {
+    .section-premium {
+      --premium-img-opacity: 0.18;
+    }
+  }
+
+  .hero-bottom-fade {
+    box-shadow:
+      inset 0 -12px 14px -5px rgba(0, 0, 0, 0.12),
+      inset 0 -5px 5px -3px rgba(0, 0, 0, 0.06);
+  }
+
+  .hero-top-fade {
+    box-shadow:
+      inset 0 6px 7px 3px rgba(0, 0, 0, 0.12),
+      inset 0 3px 5px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .text-muted-foreground {
+    color: var(--tcgv-foreground-muted);
+  }
+
+  /* ---------- CARD PREMIUM ---------- */
+  .card-premium {
+    @apply relative rounded-xl border border-gray-200/80 shadow-sm
+         bg-clubwhite/80 backdrop-blur-[2px]
+         transition-all duration-[400ms] ease-out;
+  }
+
+  /* STILL BEHAVIOR */
+  .card-premium:not(.still):hover {
+    @apply bg-clubwhite shadow-xl -translate-y-0.5;
+  }
+
+  .card-premium.still {
+    @apply transition-none;
+  }
+
+  /* REVEAL LINK BUTTONS ON MOBILE */
+  @media (hover: none), (pointer: coarse), (max-width: 767px) {
+    .team-card-actions {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  }
+
+  .card-premium.solid {
+    @apply bg-clubwhite;
+  }
+
+  /* ICONS + OVERLAY + PILLS */
+  .tcgv-icon {
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+
+  .tcgv-img-overlay-primary {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--tcgv-primary) 35%, transparent),
+      transparent 60%
+    );
+  }
+
+  .tcgv-img-overlay-service {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--tcgv-club) 15%, transparent),
+      transparent 60%
+    );
+  }
+
+  .tcgv-img-overlay-ball {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--tcgv-ball) 20%, transparent),
+      transparent 60%
+    );
+  }
+
+  .tcgv-stage-overlay {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--tcgv-bg) 65%, transparent),
+      transparent 55%
+    );
+  }
+
+  .tcgv-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border: 1px solid color-mix(in oklab, var(--tcgv-border) 70%, transparent);
+    background: color-mix(in oklab, var(--tcgv-bg) 90%, transparent);
+  }
+
+  .tcgv-pill--primary {
+    background: color-mix(in oklab, var(--tcgv-primary) 10%, transparent);
+    color: var(--tcgv-primary);
+    border-color: color-mix(in oklab, var(--tcgv-primary) 25%, transparent);
+  }
+
+  .tcgv-pill--ball {
+    background: color-mix(in oklab, var(--tcgv-ball) 35%, transparent);
+    color: var(--tcgv-clubblack);
+    border-color: color-mix(in oklab, var(--tcgv-ball) 60%, transparent);
+  }
+
+  .tcgv-pill--soft {
+    background: color-mix(in oklab, var(--tcgv-club) 10%, transparent);
+    color: color-mix(in oklab, var(--tcgv-text) 85%, transparent);
+    border-color: color-mix(in oklab, var(--tcgv-club) 18%, transparent);
+  }
+
+  .tcgv-pill--muted {
+    background: color-mix(in oklab, var(--tcgv-muted) 80%, transparent);
+    color: color-mix(in oklab, var(--tcgv-text) 60%, transparent);
+    border-color: color-mix(in oklab, var(--tcgv-border) 55%, transparent);
+  }
+
+  .tcgv-pill--xs {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .tcgv-pill--overlay-primary {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--tcgv-primary);
+    border-color: var(--tcgv-primary);
+    backdrop-filter: blur(4px);
+  }
+
+  .tcgv-pill--overlay-club {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--tcgv-club);
+    border-color: var(--tcgv-club);
+    backdrop-filter: blur(4px);
+  }
+
+  .tcgv-pill--overlay-ball {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--tcgv-clubblack);
+    border-color: var(--tcgv-ball);
+    backdrop-filter: blur(4px);
+  }
+
+  .tcgv-icon-bubble {
+    background: color-mix(in oklab, var(--tcgv-primary) 22%, transparent);
+    border: 1px solid color-mix(in oklab, var(--tcgv-primary) 25%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .tcgv-icon-bubble-soft {
+    border: 1px solid color-mix(in oklab, var(--tcgv-border) 70%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  /* FOCUS */
+  .tcgv-focus {
+    @apply focus:outline-none focus-visible:outline-none;
+    @apply focus:ring-2 focus:ring-ball/60;
+    @apply focus:border-ball;
+  }
+
+  .tcgv-focus-visible {
+    @apply focus:outline-none focus-visible:outline-none;
+    @apply focus-visible:ring-2 focus-visible:ring-ball/60;
+    @apply focus-visible:border-ball;
+    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-clubwhite;
+  }
+
+  /* CTA STYLES  */
+  .tcgv-btn {
+    @apply block 
+          w-full min-h-10 leading-10 
+          border border-gray-300 rounded-xl
+          text-sm lg:font-semibold text-center text-grey
+          transition-all duration-[400ms];
+  }
+
+  .tcgv-btn--primary {
+    @apply group-hover:bg-primary/10 group-hover:border-primary group-hover:text-primary
+        hover:text-clubwhite hover:bg-primary hover:border-primary;
+  }
+
+  .tcgv-btn--club {
+    @apply text-clubwhite group-hover:bg-club/10 group-hover:border-club group-hover:text-club
+        hover:text-clubwhite hover:bg-club hover:border-club;
+  }
+
+  .tcgv-btn--black {
+    @apply group-hover:bg-clubblack group-hover:border-clubblack group-hover:text-clubwhite
+        hover:text-clubblack hover:bg-gray-200;
+  }
+
+  .tcgv-btn--black-revert {
+    @apply hover:bg-clubblack hover:border-clubblack hover:text-clubwhite
+        group-hover:text-clubblack group-hover:bg-gray-200;
+  }
+
+  .tcgv-btn--white {
+    @apply text-clubwhite group-hover:bg-clubwhite group-hover:border-clubwhite group-hover:text-clubblack
+        hover:text-clubblack hover:bg-gray-200;
+  }
+
+  .tcgv-btn--ball {
+    @apply border-ball bg-ball text-clubblack
+          hover:bg-ball/90 hover:border-ball
+          group-hover:bg-ball/15 group-hover:border-ball group-hover:text-clubblack;
+  }
+
+  .tcgv-btn--ball-outline {
+    @apply border-ball text-clubblack bg-white
+          group-hover:bg-ball/15 group-hover:border-ball
+          hover:bg-ball hover:text-clubblack hover:border-ball;
+  }
+
+  /* ====================================================== */
+  /* CTA — ALIAS FONCTIONNELS */
+  /* ====================================================== */
+
+  .tcgv-btn--cta {
+    @apply group-hover:bg-primary/10 group-hover:border-primary group-hover:text-primary
+          hover:text-clubwhite hover:bg-primary hover:border-primary;
+  }
+
+  .tcgv-btn--cta-solid {
+    @apply bg-primary text-clubwhite border-primary
+          hover:bg-primary/10 hover:text-primary;
+  }
+
+  .tcgv-btn--service {
+    @apply text-clubwhite group-hover:bg-club/10 group-hover:border-club group-hover:text-club
+          hover:text-clubwhite hover:bg-club hover:border-club;
+  }
+
+  .tcgv-btn--service-solid {
+    @apply border-club bg-club text-clubwhite
+          hover:bg-club/10 hover:border-club hover:text-club;
+  }
+
+  .tcgv-btn--service-outline {
+    @apply bg-white
+          group-hover:bg-club/10 group-hover:border-club group-hover:text-club
+          hover:bg-club hover:text-clubwhite hover:border-club;
+  }
+
+  .tcgv-btn--alt {
+    @apply hover:bg-clubblack hover:border-clubblack hover:text-clubwhite
+          group-hover:text-clubblack group-hover:bg-gray-200;
+  }
+
+  .tcgv-btn--alt-outline {
+    @apply border-gray-300 bg-white text-clubblack
+          group-hover:bg-gray-200 group-hover:text-clubblack
+          hover:bg-clubblack hover:text-clubwhite hover:border-clubblack;
+  }
+
+  .tcgv-btn--join-alt {
+    @apply border-clubwhite/80 bg-transparent text-clubwhite
+         hover:bg-clubwhite hover:text-clubblack hover:border-clubwhite;
+  }
+
+  /* Gradients saison */
+  .tcgv-grad-spring {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--tcgv-ball) 20%, transparent),
+      color-mix(in oklab, var(--tcgv-club) 18%, transparent)
+    );
+  }
+
+  .tcgv-grad-summer {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--tcgv-primary-light) 20%, transparent),
+      color-mix(in oklab, var(--tcgv-ball) 20%, transparent)
+    );
+  }
+
+  .tcgv-grad-autumn {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--tcgv-primary) 18%, transparent),
+      color-mix(in oklab, var(--tcgv-primary-light) 18%, transparent)
+    );
+  }
+
+  .tcgv-grad-winter {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--tcgv-club) 14%, transparent),
+      color-mix(in oklab, #7aa7ff 16%, transparent)
+    );
+  }
+}

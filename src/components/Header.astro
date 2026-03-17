@@ -1,0 +1,333 @@
+---
+import { Image } from 'astro:assets';
+import logoTCGV from "@assets/images/brand/tcgv-logo-320.png";
+import { withBase } from "@utils/url";
+
+import IconUser from "@components/icons/IconUserCircle.astro";
+import IconChevronRight from "@components/icons/IconChevronRight.astro";
+---
+
+<!-- HEADER -->
+<header id="siteHeader" class="header-sticky font-opensans">
+  <!-- Overlay mobile -->
+  <button
+    id="menuOverlay"
+    type="button"
+    class="fixed inset-0 z-30 bg-clubblack/40 opacity-0 pointer-events-none
+           transition-opacity duration-300 lg:hidden"
+    tabindex="-1"
+    aria-label="Fermer le menu"
+  ></button>
+
+  <!-- Hamburger -->
+  <button
+    id="hamburgerBtn"
+    type="button"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="navMenu"
+    class="hamburger hamburger--frosted fixed z-50
+           top-[calc(0.75rem+env(safe-area-inset-top))] left-4
+           grid place-items-center lg:hidden"
+  >
+    <span class="sr-only">Menu</span>
+    <span class="hamburger__bars" aria-hidden="true">
+      <span class="bar bar-top"></span>
+      <span class="bar bar-middle"></span>
+      <span class="bar bar-bottom"></span>
+    </span>
+  </button>
+
+  <!-- NAV -->
+  <div
+    id="navMenu"
+    class="navContainer
+          fixed top-0 left-0 z-40 h-[100dvh] w-full max-w-sm
+          flex flex-col
+          bg-clubwhite px-4 pb-4 pt-4
+          transition-transform duration-500 -translate-x-full
+
+          lg:sticky lg:top-0 lg:z-40
+          lg:h-16 lg:max-w-none lg:w-full
+          lg:translate-x-0
+          lg:flex-row lg:items-center
+          lg:bg-clubwhite/70 lg:backdrop-blur-md
+          lg:border-b lg:border-clubblack/10
+          lg:shadow-[0_10px_24px_rgba(0,0,0,0.08)]
+          lg:px-0 lg:py-0"
+  >
+    <!-- Inner container -->
+    <div class="w-full max-w-[1280px] min-h-full mx-auto flex flex-col lg:flex-row lg:items-center lg:h-16 px-4">
+      <!-- Logo -->
+      <a
+        href={withBase("/")}
+        title="Revenir à l'accueil du Tennis Club du Grand Versailles"
+        class="flex justify-center items-center gap-3 lg:mr-6 shrink-0 lg:h-16 tcgv-focus-visible"
+      >
+        <Image
+          src={logoTCGV}
+          alt="Logo Tennis Club du Grand Versailles"
+          width={55}
+          loading="eager"
+          fetchpriority="low"
+          class="block w-[55px]"
+        />
+        <span class="sr-only">Tennis Club du Grand Versailles</span>
+      </a>
+
+      <!-- Scrollable -->
+      <div class="navScroll flex-1 overflow-y-auto overscroll-contain mt-6 pb-6 lg:mt-0 lg:pb-0 lg:overflow-visible">
+        <nav aria-label="Navigation principale" class="w-full lg:text-sm xl:text-base xl:font-semibold">
+          <!-- Desktop -->
+          <ul class="flex flex-col gap-2 lg:flex-row lg:items-stretch lg:justify-center lg:gap-0 lg:h-16">
+            <!-- Accueil -->
+            <li class="group flex flex-col justify-center lg:flex-1 lg:h-16 lg:flex lg:items-stretch">
+              <a
+                href={withBase("/")}
+                class="inline-block 
+                      lg:flex lg:items-center lg:justify-center
+                      lg:h-16 lg:w-full lg:text-center
+                      tcgv-focus-visible
+                      underline-animate underline-animate--desktop from-center"
+              >
+                Accueil
+              </a>
+            </li>
+
+            <!-- Le Club -->
+            <li class="navItem relative group flex flex-col justify-center lg:flex-1 lg:h-16 lg:flex lg:items-stretch">
+              <button
+                type="button"
+                aria-label="Ouvrir le sous-menu Le Club"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-submenu-trigger
+                class="flex items-center justify-between w-full text-left
+                      lg:flex lg:items-center lg:justify-center lg:gap-2
+                      lg:h-16 lg:w-full lg:text-center
+                      tcgv-focus-visible
+                      underline-animate underline-animate--desktop from-center"
+              >
+                <span class="inline-block">Le Club</span>
+                <span class="arrow inline-block transition-transform duration-300" aria-hidden="true">
+                  <IconChevronRight class="size-5 lg:size-4" />
+                </span>
+              </button>
+
+              <ul
+                class="subList max-h-0 overflow-hidden
+                      transition-all duration-500 ease-in-out
+                      pl-4 space-y-1
+                      lg:pl-0 lg:space-y-0
+                      lg:absolute lg:left-1/2 lg:top-full lg:-translate-x-1/2
+                      lg:mt-2 lg:min-w-[260px]
+                      lg:bg-clubwhite/90 lg:backdrop-blur-md
+                      lg:rounded-xl lg:shadow-lg lg:border lg:border-clubblack/10
+                      lg:py-2"
+              >
+                <li class="mt-4 mb-2 lg:mt-0 lg:mb-0">
+                  <a href={withBase("/le-club/histoire")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Histoire &amp; Valeurs
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/le-club/infrastructures")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Infrastructures
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/le-club/equipe-dirigeante")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Equipe dirigeante
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/le-club/equipe-pedagogique")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Equipe pédagogique
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Pratique -->
+            <li class="navItem relative group flex flex-col justify-center lg:flex-1 lg:h-16 lg:flex lg:items-stretch">
+              <button
+                type="button"
+                aria-label="Ouvrir le sous-menu Pratique"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-submenu-trigger
+                class="flex items-center justify-between w-full text-left
+                      lg:flex lg:items-center lg:justify-center lg:gap-2
+                      lg:h-16 lg:w-full lg:text-center
+                      tcgv-focus-visible
+                      underline-animate underline-animate--desktop from-center"
+              >
+                <span class="inline-block">Pratique</span>
+                <span class="arrow inline-block transition-transform duration-300" aria-hidden="true">
+                  <IconChevronRight class="size-5 lg:size-4" />
+                </span>
+              </button>
+
+              <ul
+                class="subList max-h-0 overflow-hidden
+                      transition-all duration-500 ease-in-out
+                      pl-4 space-y-1
+                      lg:pl-0 lg:space-y-0
+                      lg:absolute lg:left-1/2 lg:top-full lg:-translate-x-1/2
+                      lg:mt-2 lg:min-w-[260px]
+                      lg:bg-clubwhite/90 lg:backdrop-blur-md
+                      lg:rounded-xl lg:shadow-lg lg:border lg:border-clubblack/10
+                      lg:py-2"
+              >
+                <li class="mt-4 mb-2 lg:mt-0 lg:mb-0">
+                  <a href={withBase("/activites-cours")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Activités &amp; Cours
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/tarifs")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Tarifs
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/inscriptions")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Inscriptions
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Vie du club -->
+            <li class="navItem relative group flex flex-col justify-center lg:flex-1 lg:h-16 lg:flex lg:items-stretch">
+              <button
+                type="button"
+                aria-label="Ouvrir le sous-menu Vie du club"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-submenu-trigger
+                class="flex items-center justify-between w-full text-left
+                      lg:flex lg:items-center lg:justify-center lg:gap-2
+                      lg:h-16 lg:w-full lg:text-center
+                      tcgv-focus-visible
+                      underline-animate underline-animate--desktop from-center"
+              >
+                <span class="inline-block">Vie du Club</span>
+                <span class="arrow inline-block transition-transform duration-300" aria-hidden="true">
+                  <IconChevronRight class="size-5 lg:size-4" />
+                </span>
+              </button>
+
+              <ul
+                class="subList max-h-0 overflow-hidden
+                      transition-all duration-500 ease-in-out
+                      pl-4 space-y-1
+                      lg:pl-0 lg:space-y-0
+                      lg:absolute lg:left-1/2 lg:top-full lg:-translate-x-1/2
+                      lg:mt-2 lg:min-w-[260px]
+                      lg:bg-clubwhite/90 lg:backdrop-blur-md
+                      lg:rounded-xl lg:shadow-lg lg:border lg:border-clubblack/10
+                      lg:py-2"
+              >
+                <li class="mt-4 mb-2 lg:mt-0 lg:mb-0">
+                  <a href={withBase("/actualites")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Actualités
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/partenaires")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Partenaires
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/boutique")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Boutique
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Infos -->
+            <li class="navItem relative group flex flex-col justify-center lg:flex-1 lg:h-16 lg:flex lg:items-stretch">
+              <button
+                type="button"
+                aria-label="Ouvrir le sous-menu Infos"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-submenu-trigger
+                class="flex items-center justify-between w-full text-left
+                      lg:flex lg:items-center lg:justify-center lg:gap-2
+                      lg:h-16 lg:w-full lg:text-center
+                      tcgv-focus-visible
+                      underline-animate underline-animate--desktop from-center"
+              >
+                <span class="inline-block">Infos</span>
+                <span class="arrow inline-block transition-transform duration-300" aria-hidden="true">
+                  <IconChevronRight class="size-5 lg:size-4" />
+                </span>
+              </button>
+
+              <ul
+                class="subList max-h-0 overflow-hidden
+                      transition-all duration-500 ease-in-out
+                      pl-4 space-y-1
+                      lg:pl-0 lg:space-y-0
+                      lg:absolute lg:left-1/2 lg:top-full lg:-translate-x-1/2
+                      lg:mt-2 lg:min-w-[260px]
+                      lg:bg-clubwhite/90 lg:backdrop-blur-md
+                      lg:rounded-xl lg:shadow-lg lg:border lg:border-clubblack/10
+                      lg:py-2"
+              >
+                <li class="mt-4 mb-2 lg:mt-0 lg:mb-0">
+                  <a href={withBase("/reglement")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Règlement intérieur
+                  </a>
+                </li>
+                <li class="mb-2 lg:mb-0">
+                  <a href={withBase("/contact")} class="block px-4 py-2 lg:hover:bg-primary/20 tcgv-focus-visible transition-all duration-400">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- login Deskop -->
+            <li class="hidden lg:flex lg:flex-col lg:flex-1 lg:h-16 lg:items-stretch">
+              <a
+                href={withBase("/login")}
+                class="inline-flex items-center justify-center gap-2
+                      lg:h-16 lg:w-full lg:text-center
+                      tcgv-nav-login tcgv-focus-visible"
+                aria-label="Connexion à l’espace membre"
+              >
+                <span aria-hidden="true">
+                  <IconUser class="tcgv-icon size-6" />
+                </span>
+                <span class="tcgv-nav-login__label">Espace membre</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- CTA (mobile only) -->
+      <div
+        class="flex flex-col justify-between lg:hidden mt-auto pt-4 pb-2
+              bg-clubwhite backdrop-blur-md border-t border-clubblack/10"
+      >
+        <a
+          href={withBase("/login")}
+          class="tcgv-btn tcgv-btn--service-solid mb-4"
+        >
+          Espace membre
+        </a>
+        <a
+          href={withBase("/login")}
+          class="tcgv-btn tcgv-btn--alt-outline mb-4"
+        >
+          Réserver un horaire
+        </a>
+      </div>
+    </div>
+  </div>
+
+</header>

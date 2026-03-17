@@ -1,0 +1,205 @@
+---
+import ResponsiveImage from "./media/ResponsiveImage.astro";
+import ContactLink from "./ContactLink.astro";
+
+// ICONS
+import IconMappin from "@components/icons/IconMappin.astro";
+import IconPhone from "@components/icons/IconPhone.astro";
+import IconMail from "@components/icons/IconMail.astro";
+import IconClock from "@components/icons/IconClock.astro";
+
+// IMAGES
+import logoFacebook from "@assets/images/brand/facebook-logo-primary-320.png";
+import logoInstagram from "@assets/images/brand/instagram-glyph-gradient-320.png";
+import logoX from "@assets/images/brand/logo-x-black-320.png";
+import { withBase } from "@utils/url";
+
+---
+
+<!-- FOOTER -->
+<footer class="bg-clubwhite text-grey py-8 hero-top-fade">
+  <div class="container lg:max-w-7xl mx-auto sm:mx-0 lg:mx-auto px-4 flex flex-col justify-between items-center gap-4">
+    <div class="flex flex-col lg:flex-row lg:flex-wrap lg:justify-around lg:gap-10 w-full">
+      <div class="mb-8">
+        <h3 class="mb-4 text-lg">Contact & Accès</h3>
+        <div class="relative pl-8 mb-3 text-sm">
+          <i aria-hidden="true" class="absolute left-0 text-gray-400">
+            <IconMappin class="size-5" />
+          </i>
+          <address class="not-italic">57 Rue Rémont <br />78000 Versailles, France</address>
+        </div>
+        <div class="relative pl-8 mb-3 text-sm">
+          <p class="mb-3">
+            <i aria-hidden="true" class="absolute left-0 text-gray-400">
+              <IconPhone class="size-5" />
+            </i>
+            <ContactLink type="tel"  cc="+33" national="123456789" display="01&nbsp;23&nbsp;45&nbsp;67&nbsp;89" class="hover:underline" />
+          </p>
+          <p>
+            <i aria-hidden="true" class="absolute left-0 text-gray-400">
+              <IconMail class="size-5" />
+            </i>
+            <ContactLink type="mail" user="contact" domain="tcgv.fr" class="hover:underline" />
+          </p>
+          <noscript>
+            <!-- Fallback -->
+            <p class="mb-3">
+              <i aria-hidden="true" class="absolute left-0 text-gray-400">
+                <IconPhone class="size-5" />
+              </i>
+              01&nbsp;23&nbsp;45&nbsp;67&nbsp;89
+            </p>
+            <p>
+              <i aria-hidden="true" class="absolute left-0 text-gray-400">
+                <IconMail class="size-5" />
+              </i>
+              contact&#64;tcgv&#46;fr
+            </p>
+          </noscript>
+        </div>
+        <dl class="relative pl-8 mb-3 text-sm">
+          <dt class="mb-2">
+            <i aria-hidden="true" class="absolute left-0 text-gray-400">
+              <IconClock class="size-5" />
+            </i>
+            Horaires d'accès aux courts
+          </dt>
+          <dd class="text-xs text-gray-600">Tous les jours : <time datetime="07:30">7h30</time> – <time datetime="22:30">22h30</time></dd>
+        </dl>
+        <dl class="pl-8 text-sm">
+          <dt class="mb-2">Horaires d'ouverture du secrétariat</dt>
+          <dd class="mb-1 text-xs text-gray-600">Mar - Ven : <time datetime="09:00">9h00</time> – <time datetime="12:30">12h30</time> /
+          <time datetime="13:30">13h30</time> – <time datetime="18:00">18h00</time></dd>
+          <dd class="text-xs text-gray-600">Sam : <time datetime="10:00">10h00</time> – <time datetime="13:00">13h00</time></dd>
+        </dl>
+      </div>
+      <nav class="mb-8 text-sm" aria-labelledby="footer-quicklinks">
+        <h3 id="footer-quicklinks" class="mb-4 text-lg">Liens rapides</h3>
+        <ul class="grid grid-cols-2 lg:grid-cols-1 gap-2 px-4 text-gray-600 text-sm">
+          <li><a href={withBase("/")} class="hover:underline">Accueil</a></li>
+          <li><a href={withBase("/activites-cours")} class="hover:underline">Activités & Cours</a></li>
+          <li><a href={withBase("/tarifs")} class="hover:underline">Tarifs</a></li>
+          <li><a href={withBase("/actualites")} class="hover:underline">Actualit&eacute;s</a></li>
+          <li><a href={withBase("/contact")} class="hover:underline">Contact</a></li>
+          <li><a href={withBase("/reglement")} class="hover:underline">R&egrave;glement int&eacute;rieur</a></li>
+        </ul>
+      </nav>
+      <section class="mb-8 text-sm" aria-labelledby="footer-partners">
+        <h3 id="footer-partners" class="mb-4 text-lg">Partenaires</h3>
+        <ul class="grid grid-cols-2 lg:grid-cols-1 gap-2 px-4 text-gray-600 text-sm">
+          <li><a href="https://www.fft.fr/" class="hover:underline">Fédération Française de Tennis</a></li>
+          <li><a href="https://tennis-idf.fr/" class="hover:underline">Comité de Tennis des Yvelines</a></li>
+          <li><a href="https://www.galeries-royales-sport-ski-tennis.com/" class="hover:underline">Galeries Royales Sport</a></li>
+          <li><a href="https://www.wilson.com" class="hover:underline">Wilson</a></li>
+          <li><a href="http://www.revert.fr/" class="hover:underline">REVERT BRICO</a></li>
+          <li><a href="https://particuliers.sg.fr/" class="hover:underline">Société Générale</a></li>
+        </ul>
+      </section>
+      <nav class="mb-8 text-sm lg:text-lg" aria-labelledby="footer-social">
+        <h4 id="footer-social" class="mb-4">Suivez-nous</h4>
+        <ul class="flex flex-row justify-around sm:justify-start">
+          <li>
+            <a
+              href="https://www.facebook.com/?locale=fr_FR"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ouvrir Facebook dans un nouvel onglet"
+              class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-sm transition-all text-center align-middle hover:border-gray-300 hover:bg-gray-200"
+            >
+              <ResponsiveImage
+                src={logoFacebook}
+                alt="Page Facebook officielle"
+                kind="icon"
+                format="png"
+                widths={[20, 32, 48]}
+                sizes="20px"
+                class="w-5 h-5 object-contain"
+              />
+            </a>
+          </li>
+          <li class="sm:ml-4">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ouvrir Instagram dans un nouvel onglet"
+              class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-sm transition-all text-center align-middle hover:border-gray-300 hover:bg-gray-200"
+            >
+              <ResponsiveImage
+                src={logoInstagram}
+                alt="Page Instagram officielle"
+                kind="icon"
+                format="png"
+                widths={[20, 32, 48]}
+                sizes="20px"
+                class="w-5 h-5 object-contain"
+              />
+            </a>
+          </li>
+          <li class="sm:ml-4">
+            <a
+              href="https://x.com/?lang=fr"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ouvrir X dans un nouvel onglet"
+              class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 rounded-sm transition-all text-center align-middle hover:border-gray-300 hover:bg-gray-200"
+            >
+              <ResponsiveImage
+                src={logoX}
+                alt="Page X officielle"
+                kind="icon"
+                format="png"
+                widths={[20, 32, 48]}
+                sizes="20px"
+                class="w-5 h-5 object-contain"
+              />
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="text-xs text-center">&copy; 2026 Matthieu Morel — Portfolio Web<span class="mx-1">·</span>Astro &amp; React  
+      <!-- ICONS CREDITS -->
+      <div class="hidden">
+        <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/driconsart" title="dr.iconsart">dr.iconsart</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/imaginationlol" title="imaginationlol">imaginationlol</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/ains" title="Ains">Ains</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/andinur" title="andinur">andinur</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/afif-fudin" title="afif fudin">afif fudin</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/hat-tech" title="Hat Tech">Hat Tech</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/metami-septiana" title="Metami septiana">Metami septiana</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/hexagon075" title="Hexagon075">Hexagon075</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/kmg-design" title="kmg design">kmg design</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/fantasyou" title="Fantasyou">Fantasyou</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="block w-full h-[1px] border-0 bg-radial from-gray-300 from-40% to-clubwhite">
+    
+    <nav aria-label="Liens légaux" class="w-full">
+      <ul class="w-full flex flex-row justify-between sm:justify-start lg:justify-center text-xs text-gray-600">
+        <li><a href={withBase("/mentions")} class="hover:underline">Mentions légales</a></li>
+        <li class="sm:ml-4"><a href={withBase("/cgu")} class="hover:underline">CGU</a></li>
+        <li class="sm:ml-4"><a href={withBase("/confidentialite")} class="hover:underline">Politique de confidentialité</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>

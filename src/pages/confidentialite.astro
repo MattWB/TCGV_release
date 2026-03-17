@@ -1,0 +1,81 @@
+﻿---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import ContactLink from "../components/ContactLink.astro";
+import { confidentialiteSeo as seo } from "../data/legalSeo";
+---
+
+<BaseLayout title={seo.title} description={seo.description}>
+  <PageHero
+    title="Politique de confidentialité"
+    subtitle="Transparence sur les données personnelles traitées via le site."
+    variant="premium"
+    watermark="Transparence"
+    watermarkColor="text-grey/30"
+  />
+
+  <PageSection
+    title="Information importante - Cadre d'utilisation de cette page"
+    subtitle="Site démo non contractuel. Les informations affichées sur cette page sont présentées à des fins de démonstration."
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <PageSection
+    title="Données collectées"
+    subtitle="Nature des informations"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>
+        Nous collectons uniquement les données nécessaires au traitement des demandes adressées via les
+        formulaires du site: nom, email, téléphone et message.
+      </p>
+      <p>
+        Les données strictement techniques de navigation (logs, statistiques agrégées) peuvent également
+        être traitées à des fins de sécurité et de mesure d'audience.
+      </p>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Finalités et durée de conservation"
+    subtitle="Utilisation des données"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>Les données sont utilisées exclusivement pour répondre aux demandes des utilisateurs.</p>
+      <p>
+        Elles sont conservées pendant la durée strictement nécessaire au traitement puis archivées ou
+        supprimées conformément aux obligations légales.
+      </p>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Vos droits"
+    subtitle="Accès, rectification, suppression"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>
+        Conformément au RGPD, vous pouvez exercer vos droits d'accès, de rectification, d'effacement,
+        d'opposition et de limitation du traitement.
+      </p>
+      <p>
+        Pour toute demande liée à vos données personnelles, contactez-nous à
+        <span class="ml-1"><ContactLink type="mail" user="contact" domain="tcgv.fr" class="text-club hover:underline" /></span>.
+      </p>
+    </div>
+  </PageSection>
+</BaseLayout>
+

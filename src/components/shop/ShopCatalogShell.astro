@@ -1,0 +1,51 @@
+---
+import ShopCatalog from "./ShopCatalog";
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+import { shopItems, type ShopItem } from "../../data/shopItems";
+
+// Preset "card" côté boutique (à aligner avec ResponsiveImage kind="card")
+const CARD = {
+  widths: [320, 480, 800],
+  sizes: "(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 400px",
+  format: "webp",
+} as const;
+
+type ResponsiveImg = {
+  src: string;
+  srcSet?: string;
+  sizes?: string;
+  width?: number;
+  height?: number;
+};
+
+type ShopItemClient = Omit<ShopItem, "imageSrc"> & {
+  image: ResponsiveImg;
+};
+
+const items: ShopItemClient[] = await Promise.all(
+  shopItems.map(async (item) => {
+    // IMPORTANT : item.imageSrc doit être ImageMetadata dans shopItems.ts
+    const rendered = await getImage({
+      src: item.imageSrc as ImageMetadata,
+      widths: [...CARD.widths],
+      format: CARD.format,
+      sizes: CARD.sizes,
+    });
+
+    const image: ResponsiveImg = {
+      src: rendered.src,
+      srcSet: rendered.srcSet?.attribute ?? rendered.attributes?.srcset,
+      sizes: rendered.attributes?.sizes,
+      width: rendered.attributes?.width,
+      height: rendered.attributes?.height,
+    };
+
+    const { imageSrc, ...rest } = item;
+    return { ...rest, image };
+  }),
+);
+---
+
+<ShopCatalog client:visible={{ rootMargin: "280px" }} items={items} />

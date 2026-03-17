@@ -1,0 +1,47 @@
+---
+interface MailProps { 
+  type: 'mail'; 
+  user: string; 
+  domain: string; 
+  label?: string; 
+  class?: string 
+}
+
+interface TelProps  { 
+  type: 'tel';  
+  cc: string; 
+  national: string; 
+  display: string; 
+  class?: string 
+}
+
+const p = Astro.props as MailProps | TelProps;
+
+// HELPER FALLBACK
+function enc(s: string) {
+  return s.replaceAll('.', '&#46;').replaceAll('@', '&#64;').replaceAll(' ', '&nbsp;');
+}
+---
+
+{p.type === 'mail' ? (
+  <>
+    <span
+      data-mail-user={p.user}
+      data-mail-domain={p.domain}
+      data-class={p.class}
+      aria-label={`${p.user}@${p.domain}`}
+    ></span>
+    <noscript>{enc(p.label ?? `${p.user}@${p.domain}`)}</noscript>
+  </>
+) : (
+  <>
+    <span
+      data-tel-cc={p.cc}
+      data-tel-national={p.national}
+      data-tel-display={p.display}
+      data-class={p.class}
+      aria-label={p.display.replaceAll('&nbsp;', ' ')}
+    ></span>
+    <noscript>{enc(p.display)}</noscript>
+  </>
+)}

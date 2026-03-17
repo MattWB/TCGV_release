@@ -1,0 +1,178 @@
+﻿---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/page/PageHero.astro";
+import PageSection from "../../components/page/PageSection.astro";
+import JoinSection from "../../components/page/JoinSection.astro";
+import ResponsiveImage from "../../components/media/ResponsiveImage.astro";
+import {
+  hero,
+  introSubtitle,
+  vision,
+  facilities,
+  services,
+  joinSection,
+} from "../../data/infrastructuresContent";
+---
+
+<BaseLayout title="TCGV ― Infrastructures" description={hero.subtitle}>
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark={hero.watermark}
+    watermarkColor="text-grey/30"
+    variant="premium"
+  />
+
+  <PageSection
+    title="Des équipements au service de joueurs exigeants"
+    subtitle={introSubtitle}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-primary/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <PageSection
+    tone="default"
+    align="left"
+    watermark={vision.watermark}
+    paddingClass="px-4 sm:pt-8 lg:pt-16"
+  >
+    <div class="reveal reveal--media mt-10 rounded-2xl overflow-hidden shadow-md">
+      <div class="relative aspect-[21/9] min-h-[220px]">
+        <ResponsiveImage
+          src={hero.img}
+          alt={hero.alt}
+          kind="section"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+      </div>
+    </div>
+
+    <div class="mt-12 grid lg:grid-cols-12 gap-10 items-start">
+      <article class="lg:col-span-8 space-y-6 reveal reveal--body text-left">
+        {vision.paragraphs.map((p) => (
+          <p class="text-gray-700 leading-relaxed">{p}</p>
+        ))}
+      </article>
+
+      <aside class="lg:col-span-4 reveal reveal--card">
+        <article class="card-premium still p-6">
+          <h2 class="font-montserrat font-bold text-primary text-xl">En bref</h2>
+          <ul class="mt-4 space-y-3 text-sm text-gray-600">
+            <li>&bull; Une organisation pensée pour jouer toute l'année</li>
+            <li>&bull; Des installations suivies au rythme des saisons</li>
+            <li>&bull; Des services utiles à la pratique régulière</li>
+          </ul>
+        </article>
+      </aside>
+    </div>
+  </PageSection>
+
+  <PageSection
+    id="installations"
+    title="Installations principales"
+    subtitle="Des espaces structurés pour jouer, s'entraîner et récupérer"
+    bgClass="bg-clay"
+    watermark="Excellence"
+  >
+    <div class="mt-4 lg:mt-10 space-y-4 lg:space-y-14">
+      {facilities.map((f, i) => {
+        const reverse = i % 2 === 1;
+        return (
+          <div class="reveal reveal--card">
+            <article class={`card-premium group p-6 ${reverse ? "lg:[&_.media]:order-2 lg:[&_.content]:order-1" : ""}`}>
+              <div class="grid lg:grid-cols-2 gap-10 items-center">
+                <div class="media relative">
+                  <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
+                    <ResponsiveImage
+                      src={f.imageSrc}
+                      alt={f.title}
+                      kind="card-wide"
+                      widths={[480, 800, 1200]}
+                      sizes="(max-width: 640px) 92vw, (max-width: 1024px) 92vw, 620px"
+                      class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-450 ease-in-out"
+                    />
+                    <div class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 tcgv-img-overlay-primary"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
+                  </div>
+                  <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+                </div>
+
+                <div class="content">
+                  <div class="reveal reveal--title">
+                    <h3 class="pl-4 font-montserrat font-bold text-2xl md:text-3xl text-clubblack relative inline-block">
+                      <span class="absolute left-0 top-1 w-1 h-[calc(100%-0.5rem)] bg-gradient-to-b from-primary to-primary/30 rounded-full"></span>
+                      {f.title}
+                    </h3>
+                  </div>
+
+                  <div class="reveal reveal--body">
+                    <p class="mt-4 font-opensans leading-relaxed text-sm md:text-lg text-gray-500">
+                      {f.description}
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-3">
+                      {f.stats.map((s) => (
+                        <span class="tcgv-pill tcgv-pill--primary">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        );
+      })}
+    </div>
+  </PageSection>
+
+  <PageSection
+    id="services"
+    title="Services &amp; équipements"
+    subtitle="Des services pratiques pour accompagner la vie sportive du club"
+    tone="default"
+    watermark="Services"
+  >
+    <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-10">
+      {services.map((s) => (
+        <div class="reveal reveal--card">
+          <div class="card-premium p-4 md:p-4 group h-full">
+            <div class="h-full flex flex-col justify-between">
+              <div class="flex items-start gap-4">
+                <div class="grid size-12 shrink-0 place-items-center rounded-full bg-primary/10 text-primary/70 transition-all duration-300 group-hover:bg-primary/15 group-hover:text-primary group-hover:scale-[1.03]">
+                  <s.icon class="tcgv-icon size-5" aria-hidden="true" />
+                </div>
+
+                <div>
+                  <h3 class="font-montserrat font-bold text-clubblack">
+                    <span class="underline-animate from-left relative inline-block">
+                      {s.title}
+                    </span>
+                  </h3>
+
+                  <p class="mt-2 font-opensans text-sm text-gray-500 group-hover:text-clubblack transition-all duration-400">
+                    {s.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title={joinSection.title}
+    bgKey={joinSection.bgKey}
+    body={joinSection.body}
+    note={joinSection.note}
+    ctas={joinSection.ctas}
+  />
+</BaseLayout>
+

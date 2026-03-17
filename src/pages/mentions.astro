@@ -1,0 +1,75 @@
+﻿---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import ContactLink from "../components/ContactLink.astro";
+import { mentionsSeo as seo } from "../data/legalSeo";
+---
+
+<BaseLayout title={seo.title} description={seo.description}>
+  <PageHero
+    title="Mentions légales"
+    subtitle="Informations légales relatives à l'éditeur, à l'hébergement et à l'utilisation du site."
+    variant="premium"
+    watermark="Informations"
+    watermarkColor="text-grey/30"
+  />
+
+  <PageSection
+    title="Information importante - Cadre d'utilisation de cette page"
+    subtitle="Site démo non contractuel. Les informations affichées sur cette page sont présentées à des fins de démonstration."
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <PageSection
+    title="Editeur du site"
+    subtitle="Conformément à la réglementation en vigueur"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p><strong class="text-clubblack">Association :</strong> Tennis Club du Grand Versailles (TCGV)</p>
+      <p><strong class="text-clubblack">Adresse :</strong> 57 Rue Rémont, 78000 Versailles</p>
+      <p><strong class="text-clubblack">Email :</strong> <ContactLink type="mail" user="contact" domain="tcgv.fr" class="text-club hover:underline" /></p>
+      <p><strong class="text-clubblack">Téléphone :</strong> <ContactLink type="tel" cc="+33" national="123456789" display="+33 (0)1 23 45 67 89" class="text-club hover:underline" /></p>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Hébergement"
+    subtitle="Informations d'hébergement du site"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p><strong class="text-clubblack">Note :</strong> informations d'hébergement fournies à titre démonstratif.</p>
+      <p><strong class="text-clubblack">Hébergeur :</strong> à compléter</p>
+      <p><strong class="text-clubblack">Adresse :</strong> à compléter</p>
+      <p><strong class="text-clubblack">Contact :</strong> à compléter</p>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Propriété intellectuelle"
+    subtitle="Protection des contenus"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>
+        L'ensemble des contenus publiés sur ce site (textes, images, logos, éléments graphiques) est
+        protégé par les lois relatives à la propriété intellectuelle.
+      </p>
+      <p>
+        Toute reproduction ou utilisation, totale ou partielle, sans autorisation préalable est interdite.
+      </p>
+    </div>
+  </PageSection>
+</BaseLayout>
+

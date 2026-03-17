@@ -1,0 +1,75 @@
+---
+import type { ImageMetadata } from "astro";
+import ResponsiveImage from "@components/media/ResponsiveImage.astro";
+import { withBase } from "@utils/url";
+
+interface BookingFeature {
+  title: string;
+  text: string;
+  Icon: any;
+}
+
+interface BookingContent {
+  title: string;
+  description: string;
+  features: BookingFeature[];
+  cta: {
+    label: string;
+    href: string;
+  };
+}
+
+interface Props {
+  booking: BookingContent;
+  clockImg: ImageMetadata;
+}
+
+const { booking, clockImg } = Astro.props;
+---
+
+<div class="mx-auto mt-8 grid max-w-5xl gap-12 lg:grid-cols-2 lg:items-center">
+  <div class="reveal reveal--media group relative overflow-hidden rounded-2xl shadow-xl">
+    <div class="relative aspect-[4/3]">
+      <ResponsiveImage
+        src={clockImg}
+        alt="Réservation d'horaires"
+        kind="section"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 tcgv-img-overlay-primary" />
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <div class="inline-block">
+      <h3 class="reveal reveal--title pl-4 text-3xl font-semibold tracking-tight border-l-gradient-club">
+        {booking.title}
+      </h3>
+    </div>
+
+    <p class="reveal reveal--body text-base/7 text-muted-foreground">
+      {booking.description}
+    </p>
+
+    <div class="space-y-4 pt-2">
+      {booking.features.map((f) => (
+        <div class="reveal reveal--body flex gap-3">
+          <div class="mt-0.5 grid size-8 place-items-center rounded-full bg-primary/10">
+            <f.Icon class="tcgv-icon size-4 text-primary" />
+          </div>
+          <div>
+            <div class="font-normal">{f.title}</div>
+            <div class="text-sm text-muted-foreground">{f.text}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="reveal reveal--body pt-3">
+      <a class="tcgv-btn tcgv-btn--alt tcgv-focus" href={withBase(booking.cta.href)}>
+        {booking.cta.label}
+      </a>
+    </div>
+  </div>
+</div>
+

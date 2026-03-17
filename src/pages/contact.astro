@@ -1,0 +1,342 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import ResponsiveImage from "../components/media/ResponsiveImage.astro";
+import ContactLink from "../components/ContactLink.astro";
+import {
+  contactSeo as seo,
+  contactDetails,
+  accessInfo,
+  mapEmbedSrc,
+} from "../data/contactContent";
+
+// IMAGES
+import mapImg from "@assets/images/sections/tcgv-contact-map-800.webp";
+
+// ICONS
+import IconMappin from "@components/icons/IconMappin.astro";
+import { withBase } from "@utils/url";
+---
+
+<BaseLayout title={seo.title} description={seo.description}>
+  <PageHero
+    title="Contact"
+    subtitle="Consultez toutes les informations pour joindre le club"
+    variant="premium"
+    watermark="Contact"
+    watermarkColor="text-grey/30"
+  >
+  </PageHero>
+
+  <PageSection
+    id="contact-coordonnees"
+    title="Nos coordonnées"
+    subtitle="Notre équipe est à votre écoute pour répondre à vos questions et vous accompagner. Pour cela, nous avons mis plusieurs moyens à votre disposition."
+    tone="default"
+    align="center"
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+  >
+    <div class="reveal reveal--body mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4 text-left">
+      {contactDetails.map((item) => (
+        <article class="card-premium still bg-clubwhite h-full p-5 md:p-6">
+          <div class="inline-flex size-12 items-center justify-center rounded-full bg-club/10 text-club">
+            <item.icon class="tcgv-icon size-6" aria-hidden="true" />
+          </div>
+
+          <h3 class="mt-4 text-lg font-semibold tracking-tight">{item.title}</h3>
+
+          {item.href?.startsWith("mailto:") ? (
+            <ContactLink
+              type="mail"
+              user="contact"
+              domain="tcgv.fr"
+              class="tcgv-focus inline-flex mt-2 text-sm text-club hover:underline underline-offset-4"
+            />
+          ) : item.href?.startsWith("tel:") ? (
+            <ContactLink
+              type="tel"
+              cc="+33"
+              national="123456789"
+              display="+33 (0)1 23 45 67 89"
+              class="tcgv-focus inline-flex mt-2 text-sm text-club hover:underline underline-offset-4"
+            />
+          ) : item.href ? (
+            <a
+              href={withBase(item.href)}
+              class="tcgv-focus inline-flex mt-2 text-sm text-club hover:underline underline-offset-4"
+              aria-label={item.hrefLabel}
+            >
+              {item.content}
+            </a>
+          ) : (
+            <p class="mt-2 text-sm text-clubblack">{item.content}</p>
+          )}
+
+          <p class="mt-2 text-sm text-muted-foreground">{item.subcontent}</p>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Nous trouver"
+    tone="muted"
+    watermark="Localisation"
+    align="left"
+  >
+    <div class="reveal reveal--media mt-10 mx-auto max-w-5xl">
+      <div class="card-premium still relative w-full h-[360px] sm:h-[400px] md:h-auto md:aspect-[16/9] overflow-hidden" data-map-wrapper>
+        <ResponsiveImage
+          src={mapImg}
+          alt="Aperçu Google Maps"
+          kind="section"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          class="absolute inset-0 grid place-items-center p-6 text-center bg-clubwhite/60 backdrop-blur-[2px]"
+          data-map-consent
+        >
+          <div class="grid size-14 place-items-center rounded-full bg-club/10 text-club">
+            <IconMappin class="tcgv-icon size-7" aria-hidden="true" />
+          </div>
+          <div class="mt-4 space-y-2 max-w-xl">
+            <p class="text-lg font-semibold tracking-tight text-clubblack">Carte interactive</p>
+            <p class="text-sm text-muted-foreground">
+              En activant la carte, vous chargez un contenu externe (Google) susceptible d'utiliser des cookies.
+            </p>
+          </div>
+          <button
+            type="button"
+            class="tcgv-btn tcgv-btn--alt-outline tcgv-focus w-full sm:w-auto px-8 mt-6 cursor-pointer"
+            data-map-load
+            data-map-src={mapEmbedSrc}
+            data-map-open-url="https://maps.google.com/?q=Tennis+Club+du+Grand+Versailles"
+          >
+            Activer la carte
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal reveal--body mt-8 grid gap-6 md:grid-cols-3">
+      {accessInfo.map((item) => (
+        <article class="card-premium still h-full p-5 md:p-6 text-center">
+          <h3 class="text-lg font-semibold tracking-tight">{item.title}</h3>
+          <p class="mt-3 text-sm text-muted-foreground">{item.detail}</p>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <script type="module">
+    const mapButtons = document.querySelectorAll("[data-map-load]");
+    const MAP_LOAD_TIMEOUT_MS = 3500;
+
+    mapButtons.forEach((button) => {
+      button.addEventListener(
+        "click",
+        () => {
+          const wrapper = button.closest("[data-map-wrapper]");
+          if (!wrapper) return;
+
+          const src = button.getAttribute("data-map-src");
+          if (!src) return;
+          const openUrl = button.getAttribute("data-map-open-url") ?? "https://maps.google.com";
+
+          const renderFallback = () => {
+            const fallback = document.createElement("div");
+            fallback.className =
+              "absolute inset-0 grid place-items-center p-6 text-center bg-clubwhite/90 backdrop-blur-[2px]";
+
+            const content = document.createElement("div");
+            content.className = "max-w-xl space-y-3";
+
+            const title = document.createElement("p");
+            title.className = "text-lg font-semibold tracking-tight text-clubblack";
+            title.textContent = "Carte indisponible";
+
+            const message = document.createElement("p");
+            message.className = "text-sm text-muted-foreground";
+            message.textContent =
+              "L'affichage integre est bloque par les parametres de securite. Ouvrez la carte dans un nouvel onglet.";
+
+            const link = document.createElement("a");
+            link.className = "tcgv-btn tcgv-btn--alt-outline tcgv-focus inline-flex px-8 mt-2";
+            link.href = openUrl;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "Ouvrir Google Maps";
+            link.setAttribute(
+              "aria-label",
+              "Ouvrir la localisation du club dans un nouvel onglet",
+            );
+
+            content.append(title, message, link);
+            fallback.appendChild(content);
+            wrapper.replaceChildren(fallback);
+          };
+
+          const iframe = document.createElement("iframe");
+          iframe.className = "absolute inset-0 h-full w-full border-0";
+          iframe.loading = "lazy";
+          iframe.allowFullscreen = true;
+          iframe.referrerPolicy = "no-referrer-when-downgrade";
+          iframe.title = "Localisation du Tennis Club du Grand Versailles";
+          iframe.setAttribute(
+            "aria-label",
+            "Carte Google Maps du Tennis Club du Grand Versailles",
+          );
+
+          let settled = false;
+          const failSafely = () => {
+            if (settled) return;
+            settled = true;
+            renderFallback();
+          };
+
+          const timeoutId = window.setTimeout(failSafely, MAP_LOAD_TIMEOUT_MS);
+
+          iframe.addEventListener("load", () => {
+            settled = true;
+            window.clearTimeout(timeoutId);
+          });
+
+          iframe.addEventListener("error", () => {
+            window.clearTimeout(timeoutId);
+            failSafely();
+          });
+
+          wrapper.replaceChildren(iframe);
+          iframe.src = src;
+        },
+        { once: true },
+      );
+    });
+  </script>
+
+  <PageSection
+    title="Envoyez-nous un message"
+    subtitle="Remplissez ce formulaire pour nous contacter"
+    tone="default"
+    watermark="Message"
+    align="center"
+  >
+    <div class="reveal reveal--body mt-10 mx-auto max-w-3xl text-left">
+      <form
+        method="post"
+        action="#"
+        class="card-premium still p-6 md:p-8 space-y-6"
+        data-contact-form
+      >
+        <div>
+          <label for="contact-name" class="block text-sm font-normal text-clubblack">Nom complet <span class="text-club">*</span></label>
+          <input
+            id="contact-name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            class="w-full mt-2 rounded-xl border border-clubblack/15 bg-clubwhite px-4 py-3 text-sm text-clubblack tcgv-focus"
+            placeholder="Votre nom complet"
+          />
+        </div>
+
+        <div>
+          <label for="contact-email" class="block text-sm font-normal text-clubblack">Adresse email <span class="text-club">*</span></label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            class="w-full mt-2 rounded-xl border border-clubblack/15 bg-clubwhite px-4 py-3 text-sm text-clubblack tcgv-focus"
+            placeholder="vous@example.com"
+          />
+        </div>
+
+        <div>
+          <label for="contact-subject" class="block text-sm font-normal text-clubblack">Sujet <span class="text-club">*</span></label>
+          <input
+            id="contact-subject"
+            name="subject"
+            type="text"
+            required
+            autocomplete="on"
+            class="w-full mt-2 rounded-xl border border-clubblack/15 bg-clubwhite px-4 py-3 text-sm text-clubblack tcgv-focus"
+            placeholder="Objet de votre demande"
+          />
+        </div>
+
+        <div>
+          <label for="contact-message" class="block text-sm font-normal text-clubblack">Message <span class="text-club">*</span></label>
+          <textarea
+            id="contact-message"
+            name="message"
+            required
+            rows="6"
+            class="w-full mt-2 resize-none rounded-xl border border-clubblack/15 bg-clubwhite px-4 py-3 text-sm text-clubblack tcgv-focus"
+            placeholder="Écrivez votre message"
+          ></textarea>
+        </div>
+
+        <p class="text-xs leading-relaxed text-muted-foreground">
+          En soumettant ce formulaire, vous acceptez que vos données soient utilisées uniquement pour traiter votre demande, conformément au RGPD.
+        </p>
+
+        <button type="submit" class="tcgv-btn tcgv-btn--service-outline tcgv-focus w-full justify-center cursor-pointer">
+          Envoyer le message
+        </button>
+      </form>
+
+      <div class="reveal reveal--body mt-8 card-premium still p-6 md:p-8 text-center">
+        <p class="text-sm text-muted-foreground">Vous préférez un contact direct ?</p>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
+          <a href="#contact-coordonnees" class="tcgv-btn tcgv-btn--service-solid tcgv-focus w-full sm:w-auto px-8">
+            Envoyer un email
+          </a>
+
+          <ContactLink
+            type="tel"
+            cc="+33"
+            national="123456789"
+            display="Appeler le club"
+            class="tcgv-btn tcgv-btn--alt-outline tcgv-focus w-full sm:w-auto px-8"
+          />
+        </div>
+      </div>
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title="Prêt à rejoindre le club ?"
+    bgKey="tennis"
+    body="Vous avez désormais toutes les informations nécessaires. Il ne vous reste plus qu’à découvrir la formule d’adhésion qui correspond à votre pratique."
+    ctas={[
+      { label: "Voir les formules d’adhésion", href: "/tarifs", variant: "primary" }
+    ]}
+  />
+
+  <script type="module">
+    const form = document.querySelector("[data-contact-form]");
+    if (form) {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        window.dispatchEvent(
+          new CustomEvent("tcgv:toast", {
+            detail: {
+              title: "Contact",
+              message: "Message simulé - voir console",
+              variant: "success",
+            },
+          }),
+        );
+      });
+    }
+  </script>
+</BaseLayout>
+

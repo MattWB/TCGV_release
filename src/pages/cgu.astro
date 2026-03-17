@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import { cguSeo as seo } from "../data/legalSeo";
+---
+
+<BaseLayout title={seo.title} description={seo.description}>
+  <PageHero
+    title="Conditions générales d'utilisation"
+    subtitle="Règles applicables à l'utilisation du site du TCGV."
+    variant="premium"
+    watermark="Conditions"
+    watermarkColor="text-grey/30"
+  />
+
+  <PageSection
+    title="Information importante - Cadre d'utilisation de cette page"
+    subtitle="Site démo non contractuel. Les informations affichées sur cette page sont présentées à des fins de démonstration."
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <PageSection
+    title="Objet"
+    subtitle="Cadre d'utilisation du site"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>
+        Les présentes conditions définissent les modalités d'accès et d'utilisation du site internet du
+        Tennis Club du Grand Versailles.
+      </p>
+      <p>
+        En naviguant sur le site, l'utilisateur reconnaît avoir pris connaissance des présentes CGU et les
+        accepter sans réserve.
+      </p>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Accès au service"
+    subtitle="Disponibilité et maintenance"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>
+        Le TCGV s'efforce d'assurer l'accès au site 24h/24 et 7j/7, sans obligation de résultat.
+      </p>
+      <p>
+        L'accès peut être interrompu pour maintenance, mise à jour ou en cas de force majeure, sans préavis.
+      </p>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Responsabilité"
+    subtitle="Limitation de responsabilité"
+    tone="default"
+    align="left"
+  >
+    <div class="mt-8 card-premium still p-6 md:p-8 space-y-3 text-sm text-muted-foreground leading-7">
+      <p>
+        Le TCGV ne saurait être tenu responsable des dommages directs ou indirects liés à l'utilisation du
+        site ou à l'impossibilité temporaire d'y accéder.
+      </p>
+      <p>
+        Les informations publiées sont fournies à titre indicatif et peuvent être modifiées à tout moment.
+      </p>
+    </div>
+  </PageSection>
+</BaseLayout>

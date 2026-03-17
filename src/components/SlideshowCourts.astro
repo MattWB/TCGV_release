@@ -1,0 +1,57 @@
+---
+import ResponsiveImage from "../components/media/ResponsiveImage.astro";
+
+// ICONS
+import IconChevron from "@components/icons/IconChevronRight.astro";
+
+// IMAGES
+import court1 from "@assets/images/gallery/tcgv-gallery-indoorclay1-800.webp";
+import court2 from "@assets/images/gallery/tcgv-gallery-outdoorclay1-800.webp";
+import court3 from "@assets/images/gallery/tcgv-gallery-indoorclay4-800.webp";
+import court4 from "@assets/images/gallery/tcgv-gallery-outdoorclay2-800.webp";
+import court5 from "@assets/images/gallery/tcgv-gallery-indoorclay5-800.webp";
+
+const courts = [
+  court1,
+  court2,
+  court3,
+  court4,
+  court5
+]
+
+---
+
+<!-- FLOWBITE CAROUSEL -->
+<div id="home-courts-carousel" class="relative h-full w-full" data-carousel="slide">
+  <div class="relative h-full w-full overflow-hidden rounded-2xl">
+    {courts.map((slide, index) => (
+      <div
+        class={`${index === 0 ? "" : "hidden"} duration-700 ease-in-out absolute inset-0`}
+        data-carousel-item={index === 0 ? "active" : ""}
+      >
+        <ResponsiveImage
+          src={slide}
+          alt="Photo de la galerie d'images du TCGV"
+          kind="section"
+          class="w-full h-full object-cover object-center"
+        />
+      </div>
+    ))}
+  </div>
+
+  <div class="absolute z-50 left-1/2 -translate-x-1/2 bottom-3 flex gap-2">
+    {courts.map((_, index) => (
+      <button
+        class="tcgv-dot"
+        data-carousel-slide-to={index}
+        aria-label={`Slide ${index + 1}`}
+        aria-current={index === 0 ? "true" : undefined}
+      ></button>
+    ))}
+  </div>
+
+  <button type="button" class="absolute top-0 left-0 z-50 grid place-items-center w-12 h-full px-2 text-white/90 hover:cursor-pointer" data-carousel-prev aria-label="Slide précédente"><span class="grid place-items-center w-9 h-9 rounded-full bg-black/25 ring-1 ring-white/15 backdrop-blur-sm rotate-180"><IconChevron class="tcgv-icon" aria-hidden="true" /></span></button>
+  <button type="button" class="absolute top-0 right-0 z-50 grid place-items-center w-12 h-full px-2 text-white/90 hover:cursor-pointer" data-carousel-next aria-label="Slide suivante"><span class="grid place-items-center w-9 h-9 rounded-full bg-black/25 ring-1 ring-white/15 backdrop-blur-sm"><IconChevron class="tcgv-icon" aria-hidden="true" /></span></button>
+</div>
+
+

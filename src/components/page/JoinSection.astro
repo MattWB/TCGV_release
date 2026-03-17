@@ -1,0 +1,125 @@
+---
+import { getImage } from "astro:assets";
+
+// IMAGES
+import bgBottom from "@assets/images/backgrounds/tcgv-bg-join-bottom-1920.webp";
+import bgTop from "@assets/images/backgrounds/tcgv-bg-join-top-1920.webp";
+import bgSide from "@assets/images/backgrounds/tcgv-bg-join-side-1920.webp";
+import bgCourt from "@assets/images/backgrounds/tcgv-bg-join-court-1920.webp";
+import { withBase } from "@utils/url";
+
+// PROPS
+type CtaVariant = "primary" | "alt";
+type BgKey = "default" | "club" | "tennis" | "community";
+
+type JoinCta = { 
+  label: string; 
+  href: string; 
+  variant?: CtaVariant; 
+  download?: boolean 
+};
+
+interface Props {
+  title?: string;
+  body?: string;
+  note?: string;
+  ctas?: JoinCta[];
+  bgKey?: BgKey;
+}
+
+const {
+  title = "Rejoignez une communauté d'exception",
+  body = "",
+  note = "",
+  ctas = [{ label: "Devenir membre", href: "/inscriptions" }],
+  bgKey = "default",
+} = Astro.props as Props;
+
+/* =========================
+   BACKGROUND REGISTRY
+========================= */
+
+const bgRegistry: Record<BgKey, ImageMetadata> = {
+  default: bgBottom,
+  club: bgTop,
+  tennis: bgSide,
+  community: bgCourt,
+};
+
+const selectedBgSrc = bgRegistry[bgKey] ?? bgRegistry.default;
+
+/* =========================
+   OPTIMISATION ASTRO
+========================= */
+
+const bgImage1x = await getImage({
+  src: selectedBgSrc,
+  width: 960,
+  format: "webp",
+  quality: 80,
+});
+
+const bgImage2x = await getImage({
+  src: selectedBgSrc,
+  width: 1920,
+  format: "webp",
+  quality: 80,
+});
+
+const bgStyle = [
+  `background-image: url('${bgImage1x.src}')`,
+  `background-image: -webkit-image-set(url('${bgImage1x.src}') 1x, url('${bgImage2x.src}') 2x)`,
+  `background-image: image-set(url('${bgImage1x.src}') 1x, url('${bgImage2x.src}') 2x)`,
+].join("; ");
+
+const normalizedCtas = Array.isArray(ctas) ? ctas.slice(0, 2) : [];
+---
+
+<section id="rejoindre">
+  <div
+    class="relative min-h-[40vh] bg-no-repeat bg-cover bg-center"
+    style={bgStyle}
+  >
+    <div class="absolute inset-0 tcgv-img-overlay-primary"></div>
+
+    <div class="relative px-6 py-16 max-w-screen-lg mx-auto text-clubwhite">
+      <div class="reveal reveal--title">
+        <h2 class="font-montserrat font-bold text-clubwhite text-3xl md:text-4xl text-left pl-4 mb-4 border-l-gradient-club">
+          {title}
+        </h2>
+      </div>
+
+      {body && (
+        <p class="reveal reveal--body mt-10 font-opensans leading-relaxed text-base md:text-lg text-center italic">
+          {body}
+        </p>
+      )}
+
+      {normalizedCtas.length > 0 && (
+        <div class="reveal reveal--card mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          {normalizedCtas.map((cta, index) => {
+            const variant = cta.variant ?? (index === 0 ? "primary" : "alt");
+            const variantClass =
+              variant === "primary" ? "tcgv-btn--cta-solid hover:text-clubwhite" : "tcgv-btn--join-alt";
+
+            return (
+              <a
+                href={withBase(cta.href)}
+                class={`tcgv-btn ${variantClass} tcgv-focus w-full sm:w-1/2 justify-center`}
+                {...(cta.download ? { download: true } : {})}
+              >
+                {cta.label}
+              </a>
+            );
+          })}
+        </div>
+      )}
+
+      {note && (
+        <p class="reveal reveal--body mt-4 text-sm text-center text-clubwhite/80 italic">
+          {note}
+        </p>
+      )}
+    </div>
+  </div>
+</section>

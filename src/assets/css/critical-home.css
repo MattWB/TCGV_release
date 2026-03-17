@@ -1,0 +1,25 @@
+:root {
+  --header-h: 64px;
+}
+
+.tcgv-hero-soleil {
+  background-image: var(--tcgv-image-bg);
+  background-position: 50% -5%;
+  background-repeat: no-repeat;
+  background-size: 200%;
+}
+
+@media (min-width: 768px) {
+  .tcgv-hero-soleil {
+    background-size: 1280px;
+    background-position: 50% -7%;
+  }
+}
+
+#heroSoleil .font-montserrat {
+  font-family: "Montserrat", serif;
+}
+
+#heroSoleil .font-greatvibes {
+  font-family: "Great Vibes", cursive;
+}

@@ -1,0 +1,194 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/page/PageHero.astro";
+import PageSection from "../../components/page/PageSection.astro";
+import JoinSection from "../../components/page/JoinSection.astro";
+import ResponsiveImage from "../../components/media/ResponsiveImage.astro";
+
+// ICONS
+import IconMail from "@components/icons/IconMail.astro";
+import IconLinked from "@components/icons/IconLinked.astro";
+
+// DATA
+import {
+  equipeDirigeanteSeo as seo,
+  hero,
+  introSubtitle,
+  teamMembers,
+  visionValues,
+  quote,
+  joinSection,
+} from "../../data/equipeDirigeanteContent";
+import { withBase } from "@utils/url";
+---
+
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+>
+  <!-- HERO -->
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark={hero.watermark}
+    watermarkColor="text-grey/30"
+    variant="premium"
+  >
+  </PageHero>
+
+  <PageSection
+    title="Rencontrez notre direction"
+    subtitle={introSubtitle}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+
+  <!-- TEAM -->
+  <PageSection
+    title="Bureau de direction du Tennis Club du Grand Versailles"
+    subtitle=""
+    watermark="Leadership"
+    tone="default"
+    premiumBg="none"
+  >
+    <div class="mx-auto mt-8 grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {teamMembers.map((m) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium group relative overflow-hidden h-full">
+            <div class="relative aspect-[4/5] overflow-hidden bg-clubwhite">
+            <ResponsiveImage
+              src={m.imageSrc}
+              alt={m.name}
+              kind="card"
+              class="absolute inset-0 h-full w-full object-cover"
+            />
+              <div class="absolute inset-0 bg-gradient-to-t from-clubwhite via-clubwhite/25 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-60" />
+
+              <div
+                class="pointer-events-none absolute -inset-x-16 -inset-y-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                aria-hidden="true"
+              >
+                <div class="h-full w-full rotate-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+              </div>
+
+              <div class="absolute left-4 top-4">
+                <span class="inline-flex items-center rounded-full 
+                            border border-gray-200/70 
+                            bg-clubwhite/70 
+                            px-3 py-1 text-xs font-normal text-clubblack
+                            backdrop-blur-sm">
+                  {m.role}
+                </span>
+              </div>
+
+              <div class="team-card-actions absolute bottom-4 right-4 flex gap-2 opacity-0 translate-y-2 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0">
+                <a
+                  class="grid size-10 place-items-center rounded-full bg-clubwhite/85 backdrop-blur-md shadow-lg border border-gray-200
+                        transition-all duration-300 hover:scale-[1.06]
+                        hover:border-club/40 hover:ring-2 hover:ring-primary/15
+                        hover:bg-club hover:text-clubwhite"
+                  href={withBase("/contact")}
+                  aria-label={`Contacter ${m.name}`}
+                >
+                  <IconMail class="size-4" aria-hidden="true" />
+                </a>
+
+                <a
+                  class="grid size-10 place-items-center rounded-full bg-clubwhite/85 backdrop-blur-md shadow-lg border border-gray-200
+                        transition-all duration-300 hover:scale-[1.06]
+                        hover:border-club/40 hover:ring-2 hover:ring-primary/15
+                        hover:bg-club hover:text-clubwhite"
+                  href={m.linkedin}
+                  aria-label={`Voir le profil LinkedIn de ${m.name}`}
+                >
+                  <IconLinked class="size-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+
+            <div class="p-6">
+              <header>
+                <h3 class="text-xl font-semibold tracking-tight group-hover:text-club transition-colors">
+                  {m.name}
+                </h3>
+              </header>
+
+              <p class="mt-3 text-sm/6 text-muted-foreground">
+                {m.description}
+              </p>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- VISION -->
+  <PageSection
+    title="Notre engagement"
+    subtitle="Les valeurs qui guident notre action au quotidien"
+    watermark="Vision"
+    align="left"
+    tone="premium"
+    premiumBg="none"
+    premiumOverlay="club"
+    overlayDir="to-tr"
+    overlayStrength="soft"
+  >
+    <div class="mx-auto mt-4 lg:mt-8 grid max-w-6xl gap-4 lg:gap-6 md:grid-cols-2">
+      {visionValues.map((v) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium group h-full p-8">
+            <div class="flex items-start gap-4">
+              <div class="grid size-12 flex-shrink-0 place-items-center rounded-full bg-club/10 transition-colors duration-300 group-hover:bg-club/20 text-club/60 group-hover:text-club">
+                <v.Icon class="size-6" aria-hidden="true" />
+              </div>
+
+              <div class="min-w-0">
+                <h3 class="text-xl font-semibold tracking-tight group-hover:text-club transition-colors">
+                  {v.title}
+                </h3>
+                <p class="mt-2 text-sm/6 text-muted-foreground">
+                  {v.text}
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+
+    <!-- QUOTE -->
+    <div class="reveal reveal--body mt-12 mb-8 lg:mb-0">
+      <div class="mx-auto max-w-4xl card-premium relative overflow-hidden p-8 md:p-10 border-l-4 border-club">
+        <div class="absolute -top-3 left-6 text-6xl text-club/20 leading-none select-none" aria-hidden="true">"</div>
+
+        <blockquote class="relative z-10 text-lg md:text-xl italic text-clubblack">
+          {quote.text}
+        </blockquote>
+
+        <p class="mt-4 text-sm text-muted-foreground">
+          {quote.author}
+        </p>
+      </div>
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title={joinSection.title}
+    bgKey={joinSection.bgKey}
+    body={joinSection.body}
+    note={joinSection.note}
+    ctas={joinSection.ctas}
+  />
+
+</BaseLayout>
+
+

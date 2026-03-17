@@ -1,0 +1,25 @@
+---
+import { historyStats } from "../../data/history";
+---
+
+<section class="py-16 px-4 bg-clubwhite">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="font-montserrat font-bold text-club text-3xl md:text-4xl text-left pl-4 mb-4 border-l-gradient-club reveal reveal--title">
+      Aujourd’hui
+    </h2>
+
+    <p class="text-lg text-gray-500 text-left reveal reveal--body">
+      Le club en quelques chiffres
+    </p>
+
+    <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-6">
+      {historyStats.map((s) => (
+        <div class="rounded-2xl bg-clubwhite shadow-sm border border-clubblack/10 px-5 py-6 text-center reveal reveal--card">
+          <p class="text-3xl font-montserrat font-bold text-primary">{s.value}</p>
+          <p class="mt-2 text-sm text-gray-600">{s.label}</p>
+          {s.hint && <p class="mt-1 text-xs text-gray-500">{s.hint}</p>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

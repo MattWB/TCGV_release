@@ -1,0 +1,33 @@
+---
+interface TocItem {
+  id: string;
+  label: string;
+  Icon: any;
+}
+
+interface Props {
+  toc: TocItem[];
+}
+
+const { toc } = Astro.props;
+---
+
+<div id="sommaire" class="scroll-mt-28"></div>
+
+<div class="reveal reveal--body mx-auto mt-8 grid max-w-5xl gap-4 md:grid-cols-2">
+  {toc.map((s) => (
+    <a
+      href={`#${s.id}`}
+      class="card-premium group flex items-center gap-4 p-5 tcgv-focus"
+    >
+      <div class="grid size-11 place-items-center rounded-full bg-club/10 transition-colors duration-300 text-club/70 group-hover:bg-club/15 group-hover:text-club">
+        <s.Icon class="tcgv-icon size-5" aria-hidden="true" />
+      </div>
+
+      <span class="text-sm font-normal text-clubblack group-hover:text-club transition-colors">
+        {s.label}
+      </span>
+    </a>
+  ))}
+</div>
+

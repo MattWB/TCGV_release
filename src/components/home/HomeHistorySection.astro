@@ -1,0 +1,68 @@
+---
+import type { ImageMetadata } from "astro";
+import PageSection from "../page/PageSection.astro";
+import ResponsiveImage from "../media/ResponsiveImage.astro";
+
+interface HistoryValue {
+  title: string;
+  subtitle: string;
+  Icon: any;
+}
+
+interface HistorySection {
+  id: string;
+  title: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  bodyParagraphs: string[];
+  values: HistoryValue[];
+}
+
+interface Props {
+  section: HistorySection;
+}
+
+const { section } = Astro.props;
+---
+
+<PageSection
+  id={section.id}
+  title={section.title}
+  tone="muted"
+  align="left"
+>
+  <div class="reveal reveal--media relative mt-8 overflow-hidden min-h-[60vh] rounded-2xl">
+    <ResponsiveImage
+      src={section.image}
+      alt={section.imageAlt}
+      kind="section"
+      class="absolute inset-0 w-full h-full object-cover kb-scale"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/40 to-transparent"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 py-16 text-white">
+      <p class="font-opensans leading-relaxed text-m md:text-lg text-clubwhite text-left xl:text-justify">
+        {section.bodyParagraphs[0]}<br /><br />
+        {section.bodyParagraphs[1]}<br /><br />
+        {section.bodyParagraphs[2]}
+      </p>
+    </div>
+  </div>
+
+  <div class="reveal reveal--body mt-10 grid grid-cols-2 xl:grid-cols-4 gap-6">
+    {section.values.map((item) => (
+      <div class="reveal reveal--card">
+        <article class="card-premium still h-full p-5 text-center">
+          <div class="mx-auto grid size-14 place-items-center rounded-full bg-primary/10 text-primary/70">
+            <item.Icon class="tcgv-icon size-7" aria-hidden="true" />
+          </div>
+          <p class="mt-4 text-sm text-center">
+            {item.title}
+            <span class="block mt-2 text-xs text-gray-500">{item.subtitle}</span>
+          </p>
+        </article>
+      </div>
+    ))}
+  </div>
+</PageSection>
+

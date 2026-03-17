@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "@assets/css/home.css";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import Slideshow from "../components/Slideshow.astro";
+import HomeHistorySection from "../components/home/HomeHistorySection.astro";
+import HomeInstallationsGrid from "../components/home/HomeInstallationsGrid.astro";
+import HomeServicesGrid from "../components/home/HomeServicesGrid.astro";
+import HomeCommitmentsGrid from "../components/home/HomeCommitmentsGrid.astro";
+import {
+  commitmentsSection,
+  historySection,
+  installationsSection,
+  metaDescription,
+  servicesSection,
+} from "../data/homeContent";
+
+import { getImage } from "astro:assets";
+import sunBg from "@assets/images/brand/tcgv-hero-sunking-1600.webp";
+import criticalHomeCss from "@assets/css/critical-home.css?raw";
+import { withBase } from "@utils/url";
+
+const sunBg1x = await getImage({
+  src: sunBg,
+  width: 800,
+  format: "webp",
+  quality: 80,
+});
+
+const sunBg2x = await getImage({
+  src: sunBg,
+  width: 1600,
+  format: "webp",
+  quality: 80,
+});
+
+const heroSunBgStyle = [
+  `--tcgv-image-bg: url('${sunBg1x.src}')`,
+  `--tcgv-image-bg: -webkit-image-set(url('${sunBg1x.src}') 1x, url('${sunBg2x.src}') 2x)`,
+  `--tcgv-image-bg: image-set(url('${sunBg1x.src}') 1x, url('${sunBg2x.src}') 2x)`,
+].join("; ");
+---
+
+<BaseLayout title="TCGV — Accueil" description={metaDescription} criticalCss={criticalHomeCss} loadFlowbite={true}>
+  <PageSection
+    id="heroSoleil"
+    tone="premium"
+    premiumBg="none"
+    premiumOverlay="none"
+    align="center"
+    style={heroSunBgStyle}
+    bgClass="tcgv-hero-soleil pt-32 lg:pt-0"
+  >
+    <div class="min-h-[calc(100svh-var(--header-h))] grid gap-10 xl:grid-cols-2 xl:items-center">
+      <!-- Colonne gauche -->
+      <div class="reveal reveal--body text-center xl:text-left">
+
+        <h1
+          class="font-montserrat font-bold tracking-tight leading-[1.05]"
+          style="font-size:clamp(1.9rem,5vw,3.25rem)"
+        >
+          Bienvenue au <br class="inline-block md:hidden xl:inline-block"/>
+          Tennis Club <br class="inline-block md:hidden xl:inline-block"/>
+          du Grand Versailles
+        </h1>
+
+        <p
+          class="mt-6 text-ball font-greatvibes text-shadow-2xs"
+          style="font-size:clamp(1.1rem,9vw,2.5rem)"
+        >
+          La passion du tennis depuis <span class="tracking-tighter">1974</span>
+        </p>
+
+        <p class="mt-6 w-full max-w-md md:max-w-lg mx-auto xl:mx-0 text-grey italic">
+          <span class="font-semibold">
+            Le TCGV accompagne la pratique régulière et les compétitions de tennis saison après saison.
+          </span><br />
+          Ici, progression, transmission et vie collective s'inscrivent dans la durée.
+        </p>
+
+        <div class="mt-10 w-full flex flex-col sm:flex-row gap-4 sm:gap-6">
+          <a href={withBase("/login")} class="tcgv-btn tcgv-btn--cta-solid tcgv-focus w-full sm:w-1/2">
+            Réserver un court
+          </a>
+
+          <a href={withBase("/activites-cours")} class="tcgv-btn tcgv-btn--alt-outline tcgv-focus w-full sm:w-1/2">
+            Voir les cours
+          </a>
+        </div>
+      </div>
+
+      <!-- Colonne droite -->
+      <div class="w-full mx-auto max-w-screen-sm md:max-w-3xl">
+        <div class="relative overflow-hidden rounded-2xl shadow aspect-[16/9] xl:aspect-[1/1] min-h-[180px] sm:min-h-[255px] max-w-full max-h-[55svh] xl:max-h-full">
+          <Slideshow />
+        </div>
+      </div>
+    </div>
+  </PageSection>
+
+  <HomeHistorySection section={historySection} />
+  <HomeInstallationsGrid section={installationsSection} />
+  <HomeServicesGrid section={servicesSection} />
+  <HomeCommitmentsGrid section={commitmentsSection} />
+
+  <JoinSection
+    title="Rejoindre le TCGV"
+    bgKey="default"
+    body="Devenez membre d’un club de terre battue établi depuis 1974, où la progression s’inscrit dans la régularité, la transmission et la vie collective."
+    ctas={[
+      { label: "Devenir membre", href: "/inscriptions", variant: "primary" }
+    ]}
+  />
+</BaseLayout>
+
+
+

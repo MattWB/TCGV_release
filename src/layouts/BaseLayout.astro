@@ -1,0 +1,165 @@
+---
+import revealCss from "@assets/css/reveal.css?raw";
+import inputCssUrl from "@assets/css/input.css?url";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Toaster from "../components/islands/Toaster";
+import toasterUrl from "@assets/js/toaster.js?url&no-inline";
+import flowbiteScriptUrl from "flowbite/dist/flowbite.min.js?url";
+import protectContactsUrl from "@assets/js/protectContacts.js?url&no-inline";
+import defaultOgImage from "@assets/images/sections/tcgv-history-tcgv-1600.webp";
+import { withBase } from "@utils/url";
+
+const {
+  title = "TCGV",
+  description = "Tennis Club du Grand Versailles - Site non officiel a but demonstratif",
+  criticalCss = "",
+  deferMainCss = false,
+  loadFlowbite = false,
+  canonical,
+  ogImage = defaultOgImage.src,
+  ogImageAlt = "Photoghraphie d'archive du TCGV",
+  ogLocale = "fr_FR",
+  noindex = false,
+} = Astro.props;
+
+const canonicalUrl = Astro.site
+  ? new URL(canonical ?? Astro.url.pathname, Astro.site).toString()
+  : canonical ?? Astro.url.pathname;
+
+const ogUrl = canonicalUrl;
+const ogImageUrl = Astro.site ? new URL(ogImage, Astro.site).toString() : ogImage;
+const robots = noindex ? "noindex, nofollow" : "index, follow";
+const faviconIcoUrl = withBase("/icons/favicon.ico");
+const faviconSvgUrl = withBase("/icons/favicon.svg");
+const faviconPngUrl = withBase("/icons/favicon-96x96.png");
+const appleIconUrl = withBase("/icons/apple-touch-icon.png");
+const manifestUrl = withBase("/icons/site.webmanifest");
+const scriptUrl = withBase("/script.js");
+const revealUrl = withBase("/reveal.js");
+const fontMontserrat700Eot = withBase("/fonts/montserrat-700.eot");
+const fontMontserrat700Woff2 = withBase("/fonts/montserrat-700.woff2");
+const fontMontserrat700Woff = withBase("/fonts/montserrat-700.woff");
+const fontMontserrat700Ttf = withBase("/fonts/montserrat-700.ttf");
+const fontMontserrat700Svg = withBase("/fonts/montserrat-700.svg#Montserrat");
+const fontOpenSans400Woff2 = withBase("/fonts/open-sans-400.woff2");
+const fontOpenSans400Woff = withBase("/fonts/open-sans-400.woff");
+const fontOpenSans400Ttf = withBase("/fonts/open-sans-400.ttf");
+const fontOpenSans600Woff2 = withBase("/fonts/open-sans-600.woff2");
+const fontOpenSans600Woff = withBase("/fonts/open-sans-600.woff");
+const fontOpenSans600Ttf = withBase("/fonts/open-sans-600.ttf");
+const fontGreatVibes400Eot = withBase("/fonts/great-vibes-400.eot");
+const fontGreatVibes400Woff2 = withBase("/fonts/great-vibes-400.woff2");
+const fontGreatVibes400Woff = withBase("/fonts/great-vibes-400.woff");
+const fontGreatVibes400Ttf = withBase("/fonts/great-vibes-400.ttf");
+const fontGreatVibes400Svg = withBase("/fonts/great-vibes-400.svg#GreatVibes");
+const localFontsCss = `
+@font-face {
+  font-family: "Montserrat";
+  src: url("${fontMontserrat700Eot}");
+  src:
+    url("${fontMontserrat700Eot}?#iefix") format("embedded-opentype"),
+    url("${fontMontserrat700Woff2}") format("woff2"),
+    url("${fontMontserrat700Woff}") format("woff"),
+    url("${fontMontserrat700Ttf}") format("truetype"),
+    url("${fontMontserrat700Svg}") format("svg");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src:
+    url("${fontOpenSans400Woff2}") format("woff2"),
+    url("${fontOpenSans400Woff}") format("woff"),
+    url("${fontOpenSans400Ttf}") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src:
+    url("${fontOpenSans600Woff2}") format("woff2"),
+    url("${fontOpenSans600Woff}") format("woff"),
+    url("${fontOpenSans600Ttf}") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Great Vibes";
+  src: url("${fontGreatVibes400Eot}");
+  src:
+    url("${fontGreatVibes400Eot}?#iefix") format("embedded-opentype"),
+    url("${fontGreatVibes400Woff2}") format("woff2"),
+    url("${fontGreatVibes400Woff}") format("woff"),
+    url("${fontGreatVibes400Ttf}") format("truetype"),
+    url("${fontGreatVibes400Svg}") format("svg");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+`;
+---
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <meta name="author" content="Tennis Club Grand Versailles, TCGV">
+    <meta name="robots" content={robots}>
+    <link rel="canonical" href={canonicalUrl}>
+
+    <link rel="icon" href={faviconIcoUrl} sizes="any">
+    <link rel="icon" href={faviconSvgUrl} type="image/svg+xml">
+    <link rel="icon" href={faviconPngUrl} type="image/png" sizes="96x96">
+    <link rel="apple-touch-icon" href={appleIconUrl} sizes="180x180">
+    <link rel="manifest" href={manifestUrl}>
+
+    <style is:inline set:html={localFontsCss}></style>
+    {deferMainCss ? (
+      <>
+        <link rel="preload" href={inputCssUrl} as="style">
+        <link rel="stylesheet" href={inputCssUrl} media="print" onload="this.media='all'">
+        <noscript><link rel="stylesheet" href={inputCssUrl} /></noscript>
+      </>
+    ) : (
+      <link rel="stylesheet" href={inputCssUrl}>
+    )}
+    <style is:inline set:html={revealCss}></style>
+    {criticalCss && <style is:inline set:html={criticalCss}></style>}
+
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:locale" content={ogLocale}>
+    <meta property="og:image" content={ogImageUrl}>
+    <meta property="og:image:alt" content={ogImageAlt}>
+    <meta property="og:url" content={ogUrl}>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TCGV">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={ogImageUrl}>
+    <meta name="twitter:image:alt" content={ogImageAlt}>
+  </head>
+  <body class="text-grey font-opensans antialiased">
+    <Header />
+    <Toaster client:only="react" />
+    <main id="main" class=""><slot /></main>
+    <Footer />
+    {loadFlowbite && <script src={flowbiteScriptUrl} defer></script>}
+    <script src={scriptUrl} defer></script>
+    <script type="module" src={protectContactsUrl} data-auto="true"></script>
+    <script type="module" src={revealUrl}></script>
+    <script type="module" src={toasterUrl}></script>
+  </body>
+</html>

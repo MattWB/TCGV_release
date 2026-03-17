@@ -1,0 +1,232 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import ContactLink from "../components/ContactLink.astro";
+
+import ShopCatalogShell from "@components/shop/ShopCatalogShell.astro";
+import ProductCard from "@components/ProductCard.astro";
+
+import IconCheck from "@components/icons/IconCheck.astro";
+
+import { shopItems } from "../data/shopItems";
+import {
+  hero,
+  categoryMeta,
+  services,
+  practical,
+  joinSection,
+  buildBoutiqueCollections,
+} from "../data/boutiqueContent";
+
+const { categories, selection } = buildBoutiqueCollections(shopItems);
+---
+
+<BaseLayout
+  title="Boutique - TCGV"
+  description="Boutique du Tennis Club du Grand Versailles : équipements premium, goodies club, retrait au pro-shop et services pratiques."
+>
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark="Boutique"
+    watermarkColor="text-grey/30"
+    variant="premium"
+  >
+  </PageHero>
+
+  <PageSection
+    title="Catégories"
+    subtitle={hero.lead}
+    watermark=""
+    tone="default"
+    align="center"
+    titleClass="text-clubblack"
+    subtitleClass="text-clubblack italic"
+    bgClass="bg-ball/70"
+  >
+    <div class="mt-4 lg:mt-8 flex flex-wrap items-center justify-center gap-4">
+      {hero.reassurance.map((item) => (
+        <div class="inline-flex items-center gap-2 text-sm text-clubblack/80">
+          <span class="grid size-6 place-items-center rounded-full bg-clubwhite text-clubblack">
+            <IconCheck class="tcgv-icon size-4" aria-hidden="true" />
+          </span>
+          <span>{item}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-8 lg:mt-10 grid gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {categories.map((category) => (
+        <article class="card-premium solid still group h-full p-5 md:p-6">
+          <div class="inline-flex items-center gap-3">
+            <span class="grid size-10 place-items-center rounded-full bg-ball">
+              <category.Icon class="tcgv-icon size-5 text-clubblack" aria-hidden="true" />
+            </span>
+            <h3 class="text-lg font-semibold tracking-tight">{category.label}</h3>
+          </div>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection
+    id="articles"
+    title="Articles"
+    subtitle=""
+    watermark="Articles"
+    align="left"
+    tone="default"
+  >
+    <div class="mt-4 lg:mt-10 space-y-8">
+      <div class="space-y-4 text-left">
+        <header class="reveal reveal--title space-y-3">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h3 class="text-xl font-semibold tracking-tight">Sélection du moment</h3>
+            <a class="tcgv-btn tcgv-btn--ball-outline tcgv-focus w-full sm:w-auto px-6" href="#catalogue">
+              Parcourir le catalogue
+            </a>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Un aperçu de nos incontournables. Pour tout voir : utilisez le catalogue interactif.
+          </p>
+        </header>
+
+        <div class="reveal reveal--card grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {selection.map((item) => {
+            const CategoryIcon = categoryMeta[item.category].Icon;
+
+            return (
+              <div class="reveal reveal--card">
+                <ProductCard
+                  imageSrc={item.imageSrc}
+                  name={item.name}
+                  price={item.priceLabel}
+                  description={item.description}
+                  badge={item.badge}
+                  categoryIcon={CategoryIcon}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection
+    id="catalogue"
+    style="scroll-margin-top: 6.5rem;"
+    title="Catalogue"
+    subtitle=""
+    watermark="Catalogue"
+    align="left"
+    tone="muted"
+  >
+    <div
+      class="card-premium still mt-4 lg:mt-8 space-y-4 p-5 md:p-6"
+    >
+      <header class="text-left">
+        <span class="tcgv-pill tcgv-pill--ball tcgv-pill--xs">Interactif</span>
+        <h3 class="mt-3 text-xl font-semibold tracking-tight">Catalogue interactif</h3>
+      </header>
+      <div>
+        <ShopCatalogShell />
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title={practical.title}
+    subtitle=""
+    watermark="Infos"
+    tone="premium"
+    premiumBg="none"
+    premiumOverlay="ball"
+    overlayDir="to-top"
+    overlayStrength="med"
+    align="left"
+  >
+    <div class="reveal reveal--body mt-4 lg:mt-10 space-y-8 text-left">
+      <div class="card-premium mb-4 lg-mb-8 p-6 md:p-8">
+        <ul class="space-y-3 text-sm text-muted-foreground">
+          {practical.items.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-ball/80">
+                <IconCheck class="tcgv-icon size-4 text-clubblack" aria-hidden="true" />
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="grid gap-4 lg:gap-6 md:grid-cols-2">
+        <div class="reveal reveal--card">
+          <article class="card-premium h-full p-6">
+            <h3 class="text-lg font-semibold tracking-tight">Horaires du Pro-Shop</h3>
+            <ul class="mt-4 space-y-2 text-sm text-muted-foreground">
+              {practical.proShop.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+        <div class="reveal reveal--card">
+          <article class="card-premium h-full p-6">
+            <h3 class="text-lg font-semibold tracking-tight">Moyens de Paiement</h3>
+            <ul class="mt-4 space-y-2 text-sm text-muted-foreground">
+              {practical.payment.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <div class="card-premium p-6 text-sm text-muted-foreground">
+        <p>
+          Une question sur un produit ? Contactez le pro-shop au{" "}
+          <ContactLink
+            type="tel"
+            cc="+33"
+            national="123456789"
+            display="01 23 45 67 89"
+            class="text-clubblack font-semibold hover:underline"
+          />
+          .
+        </p>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Services et garanties boutique"
+    subtitle=""
+    watermark="Services"
+    align="left"
+  >
+    <div class="reveal reveal--body mt-4 lg:mt-10 grid gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3 text-left">
+      {services.map((service) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium group h-full p-5 md:p-6">
+            <div class="inline-flex size-12 items-center justify-center rounded-full transition-colors duration-300 bg-ball/60 text-clubblack/70 group-hover:bg-ball group-hover:text-clubblack">
+              <service.Icon class="tcgv-icon size-6" aria-hidden="true" />
+            </div>
+            <h3 class="mt-4 text-lg font-semibold tracking-tight">{service.title}</h3>
+            <p class="mt-2 text-sm text-muted-foreground">{service.description}</p>
+          </article>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title={joinSection.title}
+    body={joinSection.body}
+    ctas={joinSection.ctas}
+    bgKey={joinSection.bgKey}
+  />
+</BaseLayout>

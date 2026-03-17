@@ -1,0 +1,128 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import ReglementToc from "../components/reglement/ReglementToc.astro";
+import ReglementArticles from "../components/reglement/ReglementArticles.astro";
+import ReglementLegal from "../components/reglement/ReglementLegal.astro";
+
+// ICONS
+import IconFileText from "@components/icons/IconFileText.astro";
+import IconCalendar from "@components/icons/IconCalendar.astro";
+
+// DATA
+import { hero, meta, toc, articles, finalArticle, legal } from "../data/reglementContent";
+
+---
+
+<BaseLayout
+  title="Règlement intérieur — TCGV"
+  description="Consultez le règlement intérieur du Tennis Club du Grand Versailles : règles de fonctionnement, droits et obligations des membres."
+>
+  <!-- HERO -->
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark={hero.watermark}
+    watermarkColor="text-grey/30"
+    variant="premium"
+  >
+  </PageHero>
+
+  <PageSection
+    title="Respect et convivialité"
+    subtitle=""
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-club/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  <div class="mt-8 mx-auto max-w-3xl text-center">
+      <div class="flex items-center justify-center">
+        <span class="grid size-14 place-items-center rounded-full bg-clubwhite/90 text-club">
+          <IconFileText class="tcgv-icon size-7 " aria-hidden="true" />
+        </span>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-sm text-clubwhite text-muted-foreground">
+        <span class="inline-flex items-center gap-2">
+          <IconCalendar class="tcgv-icon size-4" aria-hidden="true" />
+          <span>{meta.versionLabel}</span>
+        </span>
+
+        <span class="tcgv-pill tcgv-pill--overlay-club">
+          {meta.badgeLabel}
+        </span>
+      </div>
+
+      <div class="mx-auto mt-6 max-w-2xl">
+        <p class="text-base text-clubwhite italic">
+          {meta.intro}
+        </p>
+      </div>
+
+      <div class="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
+        <button
+          type="button"
+          class="tcgv-btn tcgv-btn--join-alt w-full sm:w-auto px-8 tcgv-focus"
+          data-toast="pdf"
+          aria-label="Télécharger le règlement en PDF (bientôt disponible)"
+        >
+          <span class="inline-flex items-center justify-center gap-2">
+            Télécharger en PDF
+          </span>
+        </button>
+      </div>
+    </div>
+    
+  </PageSection>
+
+  <!-- TOC -->
+  <PageSection
+    title="Sommaire"
+    subtitle="Accédez à l'article qui vous intéresse d'un simple clic"
+    watermark="Sommaire"
+    tone="default"
+    align="left"
+    paddingClass="px-4 py-4 lg:py-14"
+  >
+    <ReglementToc toc={toc} />
+  </PageSection>
+
+  <!-- ARTICLES -->
+  <PageSection
+    title="Règlement"
+    subtitle="Règles de fonctionnement, droits et obligations des membres"
+    watermark="Règlement"
+    tone="muted"
+    align="left"
+    watermarkClass="text-[16vw] md:text-[12vw] opacity-[0.04]"
+    paddingClass="px-4 py-4 lg:py-16"
+  >
+    <ReglementArticles articles={articles} finalArticle={finalArticle} />
+  </PageSection>
+
+  <!-- FOOTER DOCUMENT -->
+  <PageSection
+    title="Mentions générales"
+    tone="premium"
+    align="left"
+    premiumBg="none"
+    premiumOverlay="club"
+    overlayDir="to-top"
+    overlayStrength="soft"
+  >
+    <ReglementLegal legal={legal} />
+  </PageSection>
+
+  <JoinSection
+    title="Consulter nos formules d'adhésion"
+    body="Après lecture du règlement, vous pouvez choisir la formule adaptée à votre pratique et finaliser votre adhésion."
+    ctas={[
+      { label: "Voir les formules d’adhésion", href: "/tarifs", variant: "primary" }
+    ]}
+  />
+</BaseLayout>

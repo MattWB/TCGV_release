@@ -1,0 +1,72 @@
+/* -------------------------------------------------------
+   TCGV Reveal — Astro-first
+   - Subtle fade + translate
+   - No layout shift (opacity/transform only)
+   - JS adds .js on <html> to enable initial hidden state
+   - Respects prefers-reduced-motion
+-------------------------------------------------------- */
+
+/* Default: visible (no-JS safe) */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Enable only when JS is active */
+html.js .reveal {
+  --reveal-y: 12px;
+  --reveal-dur: 560ms;
+  --reveal-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --reveal-delay: 0ms;
+
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y), 0);
+
+  transition:
+    opacity var(--reveal-dur) var(--reveal-ease) var(--reveal-delay),
+    transform var(--reveal-dur) var(--reveal-ease) var(--reveal-delay);
+
+  will-change: opacity, transform;
+}
+
+/* Revealed state */
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Variants (opt-in) — keep it small & predictable */
+html.js .reveal--title {
+  --reveal-y: 20px;
+  --reveal-dur: 720ms;
+}
+html.js .reveal--body {
+  --reveal-y: 16px;
+  --reveal-dur: 640ms;
+}
+html.js .reveal--card {
+  --reveal-y: 14px;
+  --reveal-dur: 600ms;
+}
+html.js .reveal--media {
+  --reveal-y: 18px;
+  --reveal-dur: 700ms;
+}
+
+/* Opt-out helper (useful when reveal class is on wrappers by default) */
+html.js .reveal.reveal--none {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+/* Reduced motion: disable reveal animation entirely */
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}

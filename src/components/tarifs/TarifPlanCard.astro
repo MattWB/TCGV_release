@@ -1,0 +1,99 @@
+---
+import IconCheck from "@components/icons/IconCheck.astro";
+import IconSparkles from "@components/icons/IconSparks.astro";
+import { withBase } from "@utils/url";
+
+interface PlanCard {
+  name: string;
+  subtitle?: string;
+  price: string;
+  period: string;
+  description: string;
+  features: string[];
+  highlight?: boolean;
+}
+
+interface Props {
+  plan: PlanCard;
+  ctaHref: string;
+  ctaLabel?: string;
+  defaultCtaClass?: string;
+  highlightCtaClass?: string;
+  showHighlightBadge?: boolean;
+  showSubtitleWhenNotHighlighted?: boolean;
+  minHeightClass?: string;
+  highlightRingClass?: string;
+}
+
+const {
+  plan,
+  ctaHref,
+  ctaLabel = "Choisir cette formule",
+  defaultCtaClass = "tcgv-btn--black",
+  highlightCtaClass = "tcgv-btn--service-outline",
+  showHighlightBadge = false,
+  showSubtitleWhenNotHighlighted = false,
+  minHeightClass = "",
+  highlightRingClass = "ring-2 ring-club shadow-xl",
+} = Astro.props;
+
+const articleClass = `relative card-premium group h-full p-4 md:p-6 ${minHeightClass} ${
+  plan.highlight ? highlightRingClass : ""
+}`;
+---
+
+<article class={articleClass}>
+  {showHighlightBadge && plan.highlight && (
+    <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-10 max-w-[90%]">
+      <div class="inline-flex items-center gap-2 rounded-full bg-club text-clubwhite px-4 py-2 shadow-lg ring-4 ring-clubwhite whitespace-nowrap text-xs md:text-sm">
+        <IconSparkles class="tcgv-icon size-4 shrink-0" aria-hidden="true" />
+        <span>{plan.subtitle}</span>
+      </div>
+    </div>
+  )}
+
+  <div class={`h-full flex flex-col ${plan.highlight && showHighlightBadge ? "pt-6" : ""}`}>
+    <header class="text-center">
+      <h3 class="text-2xl font-semibold tracking-tight">{plan.name}</h3>
+      {showSubtitleWhenNotHighlighted && !plan.highlight && plan.subtitle && (
+        <p class="mt-1 text-sm text-muted-foreground">{plan.subtitle}</p>
+      )}
+    </header>
+
+    <div class="mt-6 text-center">
+      <div class="flex items-baseline justify-center gap-2">
+        <span class="text-5xl tracking-tight">{plan.price}</span>
+        <span class="text-lg text-muted-foreground">€</span>
+      </div>
+      <p class="mt-2 text-sm text-muted-foreground">par {plan.period}</p>
+    </div>
+
+    <p class="mt-5 text-sm/6 text-muted-foreground text-center">
+      {plan.description}
+    </p>
+
+    <div class="mt-6 border-t border-gray-200/70"></div>
+
+    <ul class="mt-6 space-y-3">
+      {plan.features.map((feature) => (
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-club/10 text-club">
+            <IconCheck class="size-4" aria-hidden="true" />
+          </span>
+          <span class="text-sm leading-relaxed">{feature}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-auto pt-6">
+      <a
+        href={withBase(ctaHref)}
+        class={`tcgv-btn tcgv-focus w-full justify-center ${
+          plan.highlight ? highlightCtaClass : defaultCtaClass
+        }`}
+      >
+        {ctaLabel}
+      </a>
+    </div>
+  </div>
+</article>

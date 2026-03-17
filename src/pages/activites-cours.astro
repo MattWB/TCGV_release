@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import ActivitiesLessons from "../components/activites/ActivitiesLessons.astro";
+import ActivitiesCamps from "../components/activites/ActivitiesCamps.astro";
+import ActivitiesTournaments from "../components/activites/ActivitiesTournaments.astro";
+import ActivitiesBooking from "../components/activites/ActivitiesBooking.astro";
+import {
+  booking,
+  camps,
+  clayBg,
+  clockImg,
+  hero,
+  kidsCourseImg,
+  lessons,
+  tournaments,
+} from "../data/activitesContent";
+
+import { getImage } from "astro:assets";
+
+const clayBg1x = await getImage({
+  src: clayBg,
+  width: 960,
+  format: "webp",
+  quality: 80,
+});
+
+const clayBg2x = await getImage({
+  src: clayBg,
+  width: 1920,
+  format: "webp",
+  quality: 80,
+});
+
+const clayBgStyle = [
+  `--tcgv-image-bg: url('${clayBg1x.src}')`,
+  `--tcgv-image-bg: -webkit-image-set(url('${clayBg1x.src}') 1x, url('${clayBg2x.src}') 2x)`,
+  `--tcgv-image-bg: image-set(url('${clayBg1x.src}') 1x, url('${clayBg2x.src}') 2x)`,
+].join("; ");
+---
+<BaseLayout
+  title="Activités & Cours — TCGV"
+  description="Cours, stages, tournois : développez votre jeu à tous les niveaux au Tennis Club du Grand Versailles."
+>
+  <!-- HERO -->
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark={hero.watermark}
+    watermarkColor="text-grey/30"
+    variant="premium"
+  />
+
+  <!-- VISION -->
+  <PageSection
+    title="Des activités adaptées à tous les niveaux"
+    subtitle={`Notre programme d'activités est conçu pour accompagner chaque joueur dans sa progression, quel que soit son âge ou son niveau. De l'initiation à la compétition, nos enseignants diplômés d'État mettent leur expertise au service de votre passion dans une ambiance conviviale et exigeante.
+    
+    Stages intensifs, cours réguliers, tournois internes et externes : nous proposons un calendrier riche et varié tout au long de l'année. Chaque activité est pensée pour développer technique, tactique et mental, tout en cultivant l'esprit sportif et le plaisir du jeu.
+    
+    Rejoignez une communauté de passionnés et bénéficiez d'un encadrement de qualité pour atteindre vos objectifs tennistiques.`}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    align="center"
+    bgClass="bg-primary/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <!-- COURS -->
+  <PageSection
+    title="Cours de Tennis"
+    subtitle=""
+    watermark="Cours"
+    tone="muted"
+  >
+    <ActivitiesLessons lessons={lessons} />
+  </PageSection>
+
+  <!-- STAGES -->
+  <PageSection
+    title="Stages Enfants"
+    subtitle=""
+    watermark="Stages"
+    tone="default"
+  >
+    <ActivitiesCamps camps={camps} kidsCourseImg={kidsCourseImg} />
+  </PageSection>
+
+  <!-- TOURNOIS -->
+  <PageSection
+    title="Tournois & Compétitions"
+    subtitle=""
+    tone="default"
+    bgClass="bg-lb"
+    style={clayBgStyle}
+  >
+    <ActivitiesTournaments tournaments={tournaments} />
+  </PageSection>
+
+  <!-- BOOKING -->
+  <PageSection
+    title={booking.title}
+    subtitle="Accédez facilement à vos créneaux, depuis votre espace membre"
+    watermark="Courts"
+  >
+    <ActivitiesBooking booking={booking} clockImg={clockImg} />
+  </PageSection>
+
+  <JoinSection
+    title="Rejoignez une école pour tous les niveaux"
+    bgKey="default"
+    body="Devenez membre et commencez votre apprentissage avant de vous mettre au défi"
+    ctas={[
+      { label: "S'inscrire à l'Ecole de Tennis", href: "/inscriptions", variant: "primary" }
+    ]}
+  />
+</BaseLayout>

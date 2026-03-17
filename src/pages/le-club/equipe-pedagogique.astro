@@ -1,0 +1,209 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/page/PageHero.astro";
+import PageSection from "../../components/page/PageSection.astro";
+import JoinSection from "../../components/page/JoinSection.astro";
+import ResponsiveImage from "../../components/media/ResponsiveImage.astro";
+
+// DATA
+import {
+  equipePedagogiqueSeo as seo,
+  hero,
+  introSubtitle,
+  coaches,
+  philosophy,
+  approachSteps,
+  quote,
+  joinSection,
+} from "../../data/equipePedagogiqueContent";
+---
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+>
+  <!-- HERO -->
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark={hero.watermark}
+    watermarkColor="text-grey/30"
+    variant="premium"
+  >
+  </PageHero>
+
+  <PageSection
+    title="Rencontrez vos enseignants"
+    subtitle={introSubtitle}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-primary/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <!-- COACHES GRID -->
+  <PageSection
+    title="Equipe pédagogique du Tennis Club du Grand Versailles"
+    subtitle=""
+    watermark="Expertise"
+    tone="muted"
+    >
+    <div class="mx-auto mt-8 grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {coaches.map((c) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium group overflow-hidden h-full">
+            <div class="relative aspect-[3/4] overflow-hidden bg-clubwhite">
+              <ResponsiveImage
+                src={c.imageSrc}
+                alt={c.name}
+                kind="card"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-clubwhite via-clubwhite/25 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-60" />
+
+              <!-- Badge expérience -->
+              <div class="absolute right-4 top-4">
+                <span class="inline-flex items-center rounded-full border border-gray-200/70 bg-clubwhite/75 px-3 py-1 text-xs font-normal text-clubblack backdrop-blur-sm">
+                  {c.experience}
+                </span>
+              </div>
+            </div>
+
+            <div class="p-5">
+              <header class="space-y-1">
+                <h3 class="text-lg font-semibold tracking-tight group-hover:text-primary transition-colors">
+                  {c.name}
+                </h3>
+
+                <p class="text-xs leading-relaxed text-primary/80 min-h-[2.5rem]">
+                  {c.title}
+                </p>
+              </header>
+
+              <p class="mt-3 text-xs text-muted-foreground line-clamp-4">
+                {c.description}
+              </p>
+
+              <!-- Spécialités (pills) -->
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {c.specialties.map((s) => (
+                  <span class="tcgv-pill tcgv-pill--primary tcgv-pill--xs">
+                    {s}
+                  </span>
+                ))}
+              </div>
+
+              <!-- Qualifications -->
+              <div class="border-t border-gray-200/70 pt-3 space-y-1">
+                <p class="text-xs font-normal text-muted-foreground">Qualifications :</p>
+                <ul class="text-xs text-muted-foreground space-y-0.5">
+                  {c.qualifications.map((q) => (
+                    <li class="flex items-start gap-1.5">
+                      <span class="mt-0.5 text-ball">•</span>
+                      <span>{q}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- APPROACH -->
+  <PageSection
+    title="Notre approche pédagogique"
+    subtitle="Un parcours structuré pour accompagner votre progression"
+    watermark="Méthode"
+    align="left"
+    tone="default"
+  >
+    <div class="mx-auto mt-4 lg:mt-8 max-w-4xl space-y-6">
+      {approachSteps.map((s) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium still p-8">
+            <div class="flex items-start gap-6">
+              <div class="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-clubwhite font-semibold">
+                {s.n}
+              </div>
+
+              <div class="min-w-0">
+                <h3 class="text-xl font-semibold tracking-tight">
+                  {s.title}
+                </h3>
+                <p class="mt-2 text-sm/6 text-muted-foreground">
+                  {s.text}
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- PHILOSOPHY -->
+  <PageSection
+    title="Notre philosophie d’enseignement"
+    subtitle="Une approche centrée sur le progrès et l’épanouissement de chaque joueur"
+    watermark="Passion"
+    align="left"
+    tone="premium"
+    premiumBg="none"
+    premiumOverlay="primary"
+    overlayDir="to-tr"
+    overlayStrength="soft"
+  >
+    <div class="mx-auto mt-4 lg:mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
+      {philosophy.map((p) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium group h-full p-8">
+            <div class="flex items-start gap-4">
+              <div class="grid size-12 flex-shrink-0 place-items-center rounded-full bg-primary/10 transition-colors duration-300 group-hover:bg-primary/15 text-primary/70 group-hover:text-primary">
+                <p.Icon class="tcgv-icon size-6" aria-hidden="true" />
+              </div>
+
+              <div class="min-w-0">
+                <h3 class="text-xl font-semibold tracking-tight group-hover:text-primary transition-colors">
+                  {p.title}
+                </h3>
+                <p class="mt-2 text-sm/6 text-muted-foreground">
+                  {p.text}
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+
+    <div class="reveal reveal--body mt-8 mb-8 lg:mb-0">
+      <div class="card-premium relative max-w-4xl mx-auto overflow-hidden p-8 md:p-10 border-l-4 border-primary">
+        <div class="absolute -top-3 left-6 text-6xl text-primary/20 leading-none select-none" aria-hidden="true">"</div>
+
+        <blockquote class="relative z-10 text-lg md:text-xl italic text-clubblack">
+          {quote.text}
+        </blockquote>
+
+        <p class="mt-4 text-sm text-muted-foreground">
+          {quote.author}
+        </p>
+      </div>
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title={joinSection.title}
+    bgKey={joinSection.bgKey}
+    body={joinSection.body}
+    note={joinSection.note}
+    ctas={joinSection.ctas}
+  />
+
+</BaseLayout>
+

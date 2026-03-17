@@ -1,0 +1,55 @@
+@layer utilities {
+  .tcgv-hero-soleil {
+    background-image: var(--tcgv-image-bg);
+    background-position: 50% -5%;
+    background-repeat: no-repeat;
+    background-size: 200%;
+  }
+
+  @media (min-width: 768px) {
+    .tcgv-hero-soleil {
+      background-size: 1280px;
+      background-position: 50% -7%;
+    }
+  }
+
+  .tcgv-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(4px);
+    transition: all 0.25s ease;
+  }
+
+  .tcgv-dot:hover {
+    cursor: pointer;
+    background-color: color-mix(in oklab, var(--tcgv-ball) 65%, transparent);
+    transform: scale(1.1);
+  }
+
+  .tcgv-dot[aria-current="true"] {
+    background-color: var(--tcgv-ball);
+    border-color: var(--tcgv-clubblack);
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.25);
+  }
+
+  @keyframes kb-scale {
+    from {
+      transform: scale(1.02);
+    }
+    to {
+      transform: scale(1.78);
+    }
+  }
+
+  .kb-scale {
+    transform-origin: bottom left;
+    animation: kb-scale 30s linear forwards;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+}

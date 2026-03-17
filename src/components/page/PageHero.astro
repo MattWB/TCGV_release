@@ -1,0 +1,109 @@
+---
+// PROPS
+type HeroVariant = "default" | "muted" | "premium";
+type WatermarkFont = "font-montserrat" | "font-opensans" | "font-greatvibes";
+
+type Props = {
+  title: string;
+  subtitle?: string;
+
+  bgSrc?: string;
+  bgAlt?: string;
+
+  watermark?: string;
+  watermarkColor?: string;
+  watermarkFont?: WatermarkFont;
+
+  containerClass?: string;
+  titleClass?: string;
+  variant?: HeroVariant;
+};
+
+const {
+  title,
+  subtitle = "",
+
+  bgSrc,
+
+  watermark,
+  watermarkColor = "text-ball",
+  watermarkFont = "font-greatvibes",
+
+  containerClass = "max-w-5xl",
+  titleClass = "pl-4 font-montserrat font-bold tracking-tight leading-[1.1] text-4xl md:text-5xl border-l-gradient-club",
+  variant = "default",
+} = Astro.props as Props;
+
+const watermarkTracking = "tracking-normal";
+
+/* TONES */
+const variantSectionClass: Record<HeroVariant, string> = {
+  default: "tcgv-surface",
+  muted: "tcgv-surface tcgv-surface--muted",
+  premium: "tcgv-surface tcgv-surface--premium",
+};
+
+const variantOverlayClass: Record<HeroVariant, string> = {
+  default: "bg-gradient-to-b from-clubwhite via-clubwhite/60 to-clubwhite",
+  muted: "bg-gradient-to-b from-clubwhite via-clubwhite/75 to-clubwhite",
+  premium: "bg-gradient-to-b from-clubwhite via-clubwhite/55 to-clubwhite",
+};
+
+const variantTitleClass: Record<HeroVariant, string> = {
+  default: "text-clubblack",
+  muted: "text-clubblack/90",
+  premium: "text-clubblack",
+};
+
+const variantSubtitleClass: Record<HeroVariant, string> = {
+  default: "text-gray-600",
+  muted: "text-gray-600/90",
+  premium: "text-gray-700",
+};
+
+const variantWatermarkOpacityClass: Record<HeroVariant, string> = {
+  default: "opacity-20",
+  muted: "opacity-24",
+  premium: "opacity-16",
+};
+
+/* CLASSES */
+const sectionVariantClass = variantSectionClass[variant];
+const overlayClass = variantOverlayClass[variant];
+const computedTitleClass = `${titleClass} ${variantTitleClass[variant]}`.trim();
+const computedSubtitleClass =
+  `mt-4 pl-6 text-lg max-w-2xl italic ${variantSubtitleClass[variant]}`.trim();
+const watermarkOpacityClass = variantWatermarkOpacityClass[variant];
+
+---
+
+<section class={`relative overflow-hidden hero-bottom-fade ${sectionVariantClass}`} data-variant={variant}>
+  {(bgSrc || watermark) && (
+    <div class="absolute inset-0">
+      {bgSrc && (
+        <>
+          <div class={`absolute inset-0 ${overlayClass}`}></div>
+        </>
+      )}
+
+      {watermark && (
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+          <span
+            class={`watermark-text ${watermarkColor} ${watermarkFont} ${watermarkTracking} text-[180px] sm:text-[300px] md:text-[360px] lg:text-[440px] xl:text-[600px] select-none leading-none ${watermarkOpacityClass}`}
+          >
+            {watermark}
+          </span>
+        </div>
+      )}
+    </div>
+  )}
+
+  <div class={`relative mx-auto px-6 py-20 md:py-28 ${containerClass}`}>
+    <div class="reveal reveal--title">
+      <h1 class={computedTitleClass}>{title}</h1>
+      {subtitle && <p class={computedSubtitleClass}>{subtitle}</p>}
+    </div>
+
+    <slot />
+  </div>
+</section>

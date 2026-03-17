@@ -1,0 +1,119 @@
+---
+// ICONS
+import IconFileText from "@components/icons/IconFileText.astro";
+
+// DATA
+interface ArticleSection {
+  number: string;
+  title: string;
+  paragraphs?: string[];
+  bullets?: string[];
+}
+
+interface ArticleItem {
+  id: string;
+  number: string;
+  title: string;
+  Icon: any;
+  sections: ArticleSection[];
+}
+
+interface FinalArticleParagraph {
+  number: string;
+  strong: string;
+  text: string;
+}
+
+interface FinalArticle {
+  id: string;
+  numberLabel: string;
+  label: string;
+  paragraphs: FinalArticleParagraph[];
+}
+
+interface Props {
+  articles: ArticleItem[];
+  finalArticle: FinalArticle;
+}
+
+const { articles, finalArticle } = Astro.props;
+---
+
+<div class="mx-auto mt-8 max-w-4xl space-y-16">
+  {articles.map((a) => (
+    <article id={a.id} class="scroll-mt-28 reveal reveal--body">
+      <header class="flex items-start gap-4 border-b border-club/15 pb-5">
+        <div class="grid size-12 shrink-0 place-items-center rounded-full bg-club/10 text-club/70">
+          <a.Icon class="tcgv-icon size-6" aria-hidden="true" />
+        </div>
+
+        <div class="min-w-0">
+          <p class="text-sm font-normal text-club">
+            Article {a.number}
+          </p>
+          <h3 class="text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-clubblack">
+            {a.title}
+          </h3>
+        </div>
+      </header>
+
+      <div class="mt-6 space-y-10 lg:pl-16">
+        {a.sections.map((sec) => (
+          <section class="space-y-3">
+            <h4 class="text-base md:text-lg font-semibold text-clubblack">
+              <span class="text-club">{sec.number}</span>
+              <span class="text-muted-foreground"> — </span>
+              <span>{sec.title}</span>
+            </h4>
+
+            <div class="space-y-3">
+              {sec.paragraphs?.map((p) => (
+                <p class="text-[15px] md:text-base leading-7 text-muted-foreground">
+                  {p}
+                </p>
+              ))}
+
+              {sec.bullets?.length ? (
+                <ul class="space-y-2 text-[15px] md:text-base text-muted-foreground">
+                  {sec.bullets.map((b) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-[0.6rem] size-1.5 shrink-0 rounded-full bg-club"></span>
+                      <span class="leading-7">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </section>
+        ))}
+      </div>
+    </article>
+  ))}
+
+  <!-- ARTICLE 7 -->
+  <article id={finalArticle.id} class="scroll-mt-28 reveal reveal--card">
+    <div class="card-premium border border-primary/10 bg-clubwhite/70 p-7 md:p-8">
+      <h3 class="flex flex-wrap sm:flex-nowrap items-center gap-3 text-xl md:text-2xl font-semibold tracking-tight text-club">
+        <span class="grid size-12 shrink-0 place-items-center rounded-full bg-club/10 text-club">
+          <IconFileText class="tcgv-icon size-6" aria-hidden="true" />
+        </span>
+        {finalArticle.numberLabel}
+        <span class="text-muted-foreground"> — </span>
+        <span class="text-clubblack">{finalArticle.label}</span>
+      </h3>
+
+      <div class="mt-6 space-y-4 text-[15px] md:text-base leading-7 text-muted-foreground">
+        {finalArticle.paragraphs.map((p) => (
+          <p>
+            <span class="text-club font-semibold">{p.number}</span>
+            <span class="text-muted-foreground"> — </span>
+            <strong class="text-clubblack">{p.strong}</strong>
+            {p.text}
+          </p>
+        ))}
+      </div>
+    </div>
+  </article>
+</div>
+
+

@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import ContactLink from "../components/ContactLink.astro";
+import LoginForm from "../components/islands/LoginForm";
+
+import IconPhone from "@components/icons/IconPhone.astro";
+import {
+  loginSeo as seo,
+  features,
+  helpItems,
+} from "../data/loginContent";
+import { withBase } from "@utils/url";
+---
+
+
+<BaseLayout title={seo.title} description={seo.description}>
+  <PageHero
+    title="Espace membre"
+    subtitle="Accédez à vos réservations, informations de compte et services du club."
+    variant="premium"
+    watermark="Membres"
+    watermarkColor="text-grey/30"
+  />
+
+  <PageSection
+    title="Connexion"
+    subtitle="Pour accéder à votre compte adhérent, gérer vos données personnelles ou réserver un court, connectez-vous à Premier Service"
+    tone="default"
+    align="center"
+    bgClass="bg-club/90"
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+  >
+    <div class="reveal reveal--body mt-8 mx-auto max-w-xl text-left">
+        <div
+          id="login-form-island-slot"
+          data-island-slot="login-form"
+          class="card-premium still bg-clubwhite/95 p-6 md:p-8 space-y-6"
+        >
+          <LoginForm client:idle />
+        </div>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Fonctionnalités disponibles"
+    subtitle="L'ensemble des services membres est centralisé dans votre espace personnel."
+    tone="default"
+    watermark="Services"
+    align="center"
+  >
+    <div class="reveal reveal--body mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3 text-left">
+      {features.map((feature) => (
+        <article class="card-premium still h-full p-5 md:p-6">
+          <div class={`inline-flex size-12 items-center justify-center rounded-full ring-1 ${feature.accentClass}`}>
+            <feature.icon class="tcgv-icon size-6" aria-hidden="true" />
+          </div>
+          <h3 class="mt-4 text-lg font-semibold tracking-tight">{feature.title}</h3>
+          <p class="mt-2 text-sm text-muted-foreground">{feature.description}</p>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection
+    title="Aide / Support"
+    subtitle="Si vous rencontrez un blocage, plusieurs options sont disponibles."
+    tone="premium"
+    watermark="Aide"
+    align="left"
+    premiumBg="none"
+    premiumOverlay="club"
+    overlayDir="to-top"
+    overlayStrength="soft"
+  >
+    <div class="reveal reveal--body mt-10 grid gap-6 md:grid-cols-3 text-left">
+      {helpItems.map((item) => (
+        <article class="card-premium still h-full p-5 md:p-6">
+          <h3 class="text-lg font-semibold tracking-tight">{item.title}</h3>
+          <p class="mt-2 text-sm text-muted-foreground">{item.text}</p>
+
+          <div class="mt-4 space-y-2">
+            {item.href.startsWith("mailto:") ? (
+              <div class="inline-flex items-center gap-2 text-sm text-club">
+                <item.icon class="tcgv-icon size-4 text-club" aria-hidden="true" />
+                <ContactLink
+                  type="mail"
+                  user={item.linkLabel.split("@")[0]}
+                  domain={item.linkLabel.split("@")[1]}
+                  class="tcgv-focus inline-flex items-center gap-2 text-sm text-club hover:underline underline-offset-4"
+                />
+              </div>
+            ) : (
+              <a
+                href={withBase(item.href)}
+                class="tcgv-focus inline-flex items-center gap-2 text-sm text-club hover:underline underline-offset-4"
+              >
+                <item.icon class="tcgv-icon size-4 text-club" aria-hidden="true" />
+                <span>{item.linkLabel}</span>
+              </a>
+            )}
+
+            {item.secondaryLabel && item.secondaryHref && (
+              <div class="inline-flex items-center gap-2 text-sm text-club">
+                <IconPhone class="tcgv-icon size-4 text-club" aria-hidden="true" />
+                {item.secondaryHref.startsWith("tel:") ? (
+                  <ContactLink
+                    type="tel"
+                    cc="+33"
+                    national="123456789"
+                    display={item.secondaryLabel}
+                    class="tcgv-focus inline-flex items-center gap-2 text-sm text-club hover:underline underline-offset-4"
+                  />
+                ) : (
+                  <a
+                    href={withBase(item.secondaryHref)}
+                    class="tcgv-focus inline-flex items-center gap-2 text-sm text-club hover:underline underline-offset-4"
+                  >
+                    <span>{item.secondaryLabel}</span>
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title="Besoin d'aide pour accéder à votre espace ?"
+    body="Notre équipe vous accompagne pour récupérer vos accès et vous orienter vers les bons services membres."
+    ctas={[
+      { label: "Nous contacter", href: "/contact", variant: "primary" }
+    ]}
+  />
+</BaseLayout>

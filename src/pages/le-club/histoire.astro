@@ -1,0 +1,125 @@
+﻿---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/page/PageHero.astro";
+import PageSection from "../../components/page/PageSection.astro";
+import JoinSection from "../../components/page/JoinSection.astro";
+import ResponsiveImage from "../../components/media/ResponsiveImage.astro";
+
+import { historyTimeline, historyStats } from "../../data/history";
+import { historyContents } from "../../data/historyContents";
+
+import historySectionImg from "@assets/images/sections/tcgv-history-tcgv-1600.webp";
+
+const { hero, intro, proseParagraphs, quote, summary, join, layoutTitle } = historyContents;
+---
+
+<BaseLayout title={layoutTitle} description={hero.description}>
+  <PageHero
+    title={hero.title}
+    subtitle={hero.subtitle}
+    watermark={hero.watermark}
+    watermarkColor="text-grey/30"
+    variant="premium"
+  />
+
+  <PageSection
+    title={intro.title}
+    subtitle={intro.subtitle}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-primary/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <PageSection
+    tone="premium"
+    align="left"
+    premiumBg="none"
+    premiumOverlay="none"
+    paddingClass="px-4 sm:pt-8 lg:pt-16"
+  >
+    <div class="reveal reveal--media mt-10 overflow-hidden rounded-2xl shadow-md">
+      <div class="relative aspect-[21/9] min-h-[220px]">
+        <ResponsiveImage
+          src={historySectionImg}
+          alt="Vue historique du Tennis Club du Grand Versailles"
+          kind="section"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+
+        <div class="absolute inset-0 tcgv-img-overlay-primary"></div>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection tone="default" align="left" containerClass="max-w-5xl">
+    <div class="grid lg:grid-cols-12 gap-10 items-start">
+      <article class="lg:col-span-8 space-y-6 reveal reveal--body">
+        {proseParagraphs.map((paragraph) => (
+          <p class="text-gray-700 leading-relaxed">{paragraph}</p>
+        ))}
+
+        <div class="reveal reveal--body mt-12">
+          <div class="mx-auto max-w-4xl card-premium relative overflow-hidden p-8 md:p-10 border-l-4 border-primary">
+            <div class="absolute -top-3 left-6 text-6xl text-primary/20 leading-none select-none" aria-hidden="true">"</div>
+
+            <blockquote class="relative z-10 text-lg md:text-xl italic text-clubblack">
+              {quote.text}
+            </blockquote>
+
+            <p class="mt-4 text-sm text-muted-foreground">{quote.author}</p>
+          </div>
+        </div>
+      </article>
+
+      <aside class="lg:col-span-4">
+        <div class="reveal reveal--card">
+          <article class="card-premium still p-6">
+            <h2 class="font-montserrat font-bold text-primary text-xl">{summary.title}</h2>
+            <ul class="mt-4 space-y-3 text-sm text-gray-600">
+              {summary.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </aside>
+    </div>
+  </PageSection>
+
+  <PageSection tone="muted" align="left" containerClass="max-w-5xl">
+    <div class="reveal reveal--body">
+      <article class="card-premium still p-6 md:p-8">
+        <ol class="space-y-6">
+          {historyTimeline.map((it) => (
+            <li class="border-l border-clubblack/15 pl-5">
+              <p class="font-montserrat font-bold text-primary">{it.year}</p>
+              <p class="font-montserrat font-semibold">{it.title}</p>
+              <p class="text-sm text-gray-600 leading-relaxed">{it.description}</p>
+            </li>
+          ))}
+        </ol>
+      </article>
+    </div>
+  </PageSection>
+
+  <PageSection tone="default" align="left" containerClass="max-w-5xl">
+    <div class="reveal reveal--body grid grid-cols-2 lg:grid-cols-4 gap-6">
+      {historyStats.map((s) => (
+        <div class="reveal reveal--card">
+          <article class="card-premium still px-5 py-6 text-center h-full">
+            <p class="text-3xl font-montserrat font-bold text-primary">{s.value}</p>
+            <p class="mt-2 text-sm text-gray-600">{s.label}</p>
+            {s.hint && <p class="mt-1 text-xs text-gray-500">{s.hint}</p>}
+          </article>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <JoinSection title={join.title} bgKey="tennis" body={join.body} ctas={[join.cta]} />
+</BaseLayout>
+

@@ -1,0 +1,76 @@
+﻿---
+import type { ImageMetadata } from "astro";
+import ResponsiveImage from "@components/media/ResponsiveImage.astro";
+import { withBase } from "@utils/url";
+
+interface Lesson {
+  title: string;
+  description: string;
+  level: string;
+  duration: string;
+  groupSize: string;
+  imageSrc: ImageMetadata;
+  Icon: any;
+  cta: {
+    label: string;
+    href: string;
+  };
+}
+
+interface Props {
+  lessons: Lesson[];
+}
+
+const { lessons } = Astro.props;
+---
+
+<div class="mx-auto mt-8 grid max-w-6xl gap-4 lg:gap-8 md:grid-cols-2">
+  {lessons.map((lesson) => (
+    <div class="reveal reveal--card">
+      <article class="card-premium group overflow-hidden">
+        <div class="relative aspect-[16/9] overflow-hidden">
+          <ResponsiveImage
+            src={lesson.imageSrc}
+            alt={lesson.title}
+            kind="card-wide"
+            widths={[480, 800, 1200]}
+            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 48vw, 620px"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+          <div class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 tcgv-img-overlay-primary" />
+
+          <div class="absolute right-4 top-4 grid size-12 place-items-center rounded-full tcgv-icon-bubble opacity-0 translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+            <lesson.Icon class="tcgv-icon size-6" />
+          </div>
+        </div>
+
+        <div class="p-6">
+          <h3 class="text-xl font-semibold tracking-tight group-hover:text-primary transition-colors">
+            <span class="relative inline-block">
+              {lesson.title}
+              <span class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </span>
+          </h3>
+
+          <p class="mt-3 text-sm/6 text-muted-foreground">
+            {lesson.description}
+          </p>
+
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="tcgv-pill tcgv-pill--primary">{lesson.level}</span>
+            <span class="tcgv-pill tcgv-pill--soft">{lesson.duration}</span>
+            <span class="tcgv-pill tcgv-pill--muted">{lesson.groupSize}</span>
+          </div>
+
+          <div class="mt-6">
+            <a class="tcgv-btn tcgv-btn--cta tcgv-focus" href={withBase(lesson.cta.href)}>
+              {lesson.cta.label}
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  ))}
+</div>
+
+

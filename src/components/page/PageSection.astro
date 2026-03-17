@@ -1,0 +1,187 @@
+---
+type SectionAlign = "left" | "center";
+type SectionTone = "default" | "muted" | "premium";
+type WatermarkFont = "font-montserrat" | "font-opensans" | "font-greatvibes";
+type OverlayDir = "to-tl" | "to-bl" | "to-tr" | "to-br" | "to-top" | "to-bottom";
+type OverlayStrength = "soft" | "med" | "strong" | "none";
+type PremiumBg = "clay" | "club" | "court" | "ball" | "none" | "neutral" | string;
+type PremiumOverlay = "primary" | "club" | "clubblack" | "ball" | "mix" | "none" | string;
+type PremiumBgKey = "clay" | "club" | "court" | "ball" | "none" | "neutral";
+type PremiumOverlayKey = "primary" | "club" | "clubblack" | "ball" | "mix" | "none";
+
+type Props = {
+  id?: string;
+
+  title?: string;
+  subtitle?: string;
+
+  titleClass?: string;
+  subtitleClass?: string;
+
+  bgClass?: string;
+
+  style?: string;
+
+  watermark?: string;
+  watermarkFont?: WatermarkFont;
+  watermarkClass?: string;
+
+  containerClass?: string;
+  paddingClass?: string;
+
+  align?: SectionAlign;
+  tone?: SectionTone;
+  premiumBg?: PremiumBg;
+  premiumOverlay?: PremiumOverlay;
+  overlayDir?: OverlayDir;
+  overlayStrength?: OverlayStrength;
+};
+
+const {
+  id,
+  title,
+  subtitle,
+
+  titleClass = "text-clubblack",
+  subtitleClass = "text-grey",
+
+  bgClass = "",
+
+  style,
+
+  watermark,
+  watermarkFont = "font-greatvibes",
+  watermarkClass = "text-[120px] sm:text-[195px] md:text-[230px] lg:text-[240px] xl:text-[300px] opacity-10",
+
+  containerClass = "max-w-5xl",
+  paddingClass = "px-4 py-4 sm:py-8 lg:py-16",
+
+  align = "left",
+  tone = "default",
+  premiumBg = "neutral",
+  premiumOverlay = "club",
+  overlayDir = "to-br",
+  overlayStrength = "med",
+} = Astro.props as Props;
+
+const watermarkTracking = "tracking-normal";
+
+const toneSectionClass: Record<SectionTone, string> = {
+  default: "tcgv-surface",
+  muted: "tcgv-surface tcgv-surface--muted",
+  premium: "tcgv-surface tcgv-surface--premium",
+};
+
+const alignHeaderClass: Record<SectionAlign, string> = {
+  left: "text-left",
+  center: "text-center",
+};
+
+const alignContentClass: Record<SectionAlign, string> = {
+  left: "",
+  center: "mx-auto text-center",
+};
+
+const alignSubtitleMaxClass: Record<SectionAlign, string> = {
+  left: "max-w-3xl",
+  center: "max-w-2xl mx-auto",
+};
+
+const sectionToneClass = toneSectionClass[tone];
+const headerAlignClass = alignHeaderClass[align];
+const contentAlignClass = alignContentClass[align];
+const subtitleMaxClass = alignSubtitleMaxClass[align];
+
+const premiumBgClassMap: Record<PremiumBgKey, string> = {
+  clay: "premium-bg--clay",
+  club: "premium-bg--club",
+  court: "premium-bg--court",
+  ball: "premium-bg--ball",
+  none: "premium-bg--none",
+  neutral: "premium-bg--neutral",
+};
+
+const premiumOverlayClassMap: Record<PremiumOverlayKey, string> = {
+  primary: "premium-ov--primary",
+  club: "premium-ov--club",
+  clubblack: "premium-ov--clubblack",
+  ball: "premium-ov--ball",
+  mix: "premium-ov--mix",
+  none: "premium-ov--none"
+};
+
+const premiumDirClassMap: Record<OverlayDir, string> = {
+  "to-top": "premium-dir--to-top",
+  "to-bottom": "premium-dir--to-bottom",
+  "to-tl": "premium-dir--to-tl",
+  "to-bl": "premium-dir--to-bl",
+  "to-tr": "premium-dir--to-tr",
+  "to-br": "premium-dir--to-br",
+};
+
+const premiumStrengthClassMap: Record<OverlayStrength, string> = {
+  soft: "premium-str--soft",
+  med: "premium-str--med",
+  strong: "premium-str--strong",
+  none: "premium-str--none"
+};
+
+const resolvedPremiumBgClass =
+  premiumBgClassMap[premiumBg as PremiumBgKey] ?? "premium-bg--neutral";
+const resolvedPremiumOverlayClass =
+  premiumOverlayClassMap[premiumOverlay as PremiumOverlayKey] ?? "premium-ov--none";
+const resolvedPremiumDirClass = premiumDirClassMap[overlayDir] ?? "premium-dir--to-br";
+const resolvedPremiumStrengthClass =
+  premiumStrengthClassMap[overlayStrength] ?? "premium-str--med";
+
+const premiumDecorClass =
+  tone === "premium"
+    ? `section-premium ${resolvedPremiumBgClass} ${resolvedPremiumOverlayClass} ${resolvedPremiumDirClass} ${resolvedPremiumStrengthClass}`
+    : "";
+---
+
+<section
+  id={id}
+  class={`relative overflow-hidden ${sectionToneClass} ${premiumDecorClass} ${bgClass}`}
+  data-tone={tone}
+  data-align={align}
+  style={style}
+>
+  {watermark && (
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      <span
+        class={`watermark-text select-none leading-none ${watermarkClass} ${watermarkFont} ${watermarkTracking}`}
+      >
+        {watermark}
+      </span>
+    </div>
+  )}
+
+  <div class={`section-content-layer ${paddingClass}`}>
+    <div class={`mx-auto ${containerClass}`}>
+      {(title || subtitle) && (
+        <header class={`reveal reveal--title ${headerAlignClass}`}>
+          {title && (
+            <h2 class={`font-montserrat font-bold tracking-tight text-2xl md:text-3xl ${titleClass}`}>
+              {title}
+            </h2>
+          )}
+
+          {subtitle && (
+            <p class={`mt-4 lg:mt-8 whitespace-pre-line ${subtitleClass} text-base ${subtitleMaxClass}`}>
+              {subtitle}
+            </p>
+          )}
+        </header>
+      )}
+
+      {contentAlignClass ? (
+        <div class={contentAlignClass}>
+          <slot />
+        </div>
+      ) : (
+        <slot />
+      )}
+    </div>
+  </div>
+</section>

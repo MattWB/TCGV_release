@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getImage } from "astro:assets";
+import PageHero from "../components/page/PageHero.astro";
+import PageSection from "../components/page/PageSection.astro";
+import JoinSection from "../components/page/JoinSection.astro";
+import NewsFeed from "../components/islands/NewsFeed";
+import {
+  newsArticles,
+  type NewsArticle,
+  type NewsArticleWithImage,
+  type NewsResponsiveImage,
+} from "../data/newsArticles";
+import { withBase } from "@utils/url";
+
+const NEWS_IMAGE_PRESETS = {
+  featured: {
+    widths: [480, 800, 1200],
+    sizes: "(max-width: 768px) 92vw, (max-width: 1280px) 50vw, 560px",
+  },
+  card: {
+    widths: [320, 480, 800],
+    sizes: "(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 360px",
+  },
+} as const;
+
+async function renderNewsImage(article: NewsArticle): Promise<NewsResponsiveImage> {
+  const preset = article.featured ? NEWS_IMAGE_PRESETS.featured : NEWS_IMAGE_PRESETS.card;
+  const rendered = await getImage({
+    src: article.imageSrc,
+    widths: [...preset.widths],
+    format: "webp",
+    sizes: preset.sizes,
+  });
+
+  return {
+    src: rendered.src,
+    srcSet: rendered.srcSet?.attribute ?? rendered.attributes?.srcset,
+    sizes: rendered.attributes?.sizes,
+    width: rendered.attributes?.width,
+    height: rendered.attributes?.height,
+  };
+}
+
+const renderedNewsArticles: NewsArticleWithImage[] = await Promise.all(
+  newsArticles.map(async (article) => {
+    const image = await renderNewsImage(article);
+    const { imageSrc, ...rest } = article;
+    return { ...rest, image };
+  }),
+);
+---
+
+<BaseLayout
+  title="Actualités - TCGV"
+  description="Suivez les actualités du Tennis Club du Grand Versailles : événements, tournois, vie du club, performances et infrastructures."
+>
+  <PageHero
+    title="Actualités"
+    subtitle="Suivez la vie du club et ne manquez aucun événement"
+    watermark="Actualités"
+    watermarkColor="text-grey/30"
+    variant="premium"
+  />
+
+  <PageSection
+    title="Toutes les informations du Club"
+    subtitle={`Découvrez les dernières nouvelles, les résultats de nos tournois, les événements à venir et toutes les informations qui font vivre notre communauté au quotidien.`}
+    titleClass="text-clubwhite"
+    subtitleClass="text-clubwhite italic"
+    bgClass="bg-primary/90"
+    align="center"
+    tone="default"
+    premiumBg="none"
+  >
+  </PageSection>
+
+  <PageSection
+    title="Les dernières actualités"
+    id="news-latest"
+    style="scroll-margin-top: 6.5rem;"
+    watermark="News"
+    tone="muted"
+    align="left"
+  >
+    <div class="reveal reveal--body mt-4 lg:mt-8">
+      <NewsFeed client:idle articles={renderedNewsArticles} />
+      <noscript>
+        <p class="mt-4 text-sm text-muted-foreground">
+          Le filtre interactif nécessite JavaScript. Pour toute demande, contactez-nous via
+          <a href={withBase("/contact")} class="tcgv-focus text-primary underline underline-offset-4">la page contact</a>.
+        </p>
+      </noscript>
+    </div>
+  </PageSection>
+
+  <JoinSection
+    title="Ne manquez aucune actualité"
+    body="Recevez chaque mois les nouveautés, les événements à venir et les informations du club."
+    note="Newsletter mensuelle • Désabonnement à tout moment • Données sécurisées"
+    ctas={[
+      { label: "S’abonner à la newsletter", href: "/contact", variant: "primary" },
+      { label: "Nous contacter", href: "/contact", variant: "alt" },
+    ]}
+    bgKey="community"
+  />
+</BaseLayout>
