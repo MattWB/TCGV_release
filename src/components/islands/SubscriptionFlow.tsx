@@ -161,7 +161,7 @@ export default function SubscriptionFlow() {
       new CustomEvent("tcgv:toast", {
         detail: {
           title: "Inscriptions",
-          message: "Inscription simulee - voir console",
+          message: "Inscription simulée pour ce cas d'étude.",
           variant: "success",
         },
       }),

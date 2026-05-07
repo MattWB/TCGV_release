@@ -3,7 +3,6 @@ import revealCss from "@assets/css/reveal.css?raw";
 import inputCssUrl from "@assets/css/input.css?url";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import Toaster from "../components/islands/Toaster";
 import toasterUrl from "@assets/js/toaster.js?url&no-inline";
 import flowbiteScriptUrl from "flowbite/dist/flowbite.min.js?url";
 import protectContactsUrl from "@assets/js/protectContacts.js?url&no-inline";
@@ -153,7 +152,6 @@ const localFontsCss = `
   </head>
   <body class="text-grey font-opensans antialiased">
     <Header />
-    <Toaster client:only="react" />
     <main id="main" class=""><slot /></main>
     <Footer />
     {loadFlowbite && <script src={flowbiteScriptUrl} defer></script>}

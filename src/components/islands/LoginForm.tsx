@@ -8,7 +8,7 @@ export default function LoginForm() {
       new CustomEvent("tcgv:toast", {
         detail: {
           title: "Connexion",
-          message: "Connexion simulee - voir console",
+          message: "Connexion simulée pour ce cas d'étude.",
           variant: "info",
         },
       }),
