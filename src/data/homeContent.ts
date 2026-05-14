@@ -13,7 +13,7 @@ import IconLeaf from "@components/icons/IconLeaf.astro";
 import IconAward from "@components/icons/IconAward.astro";
 import IconSparks from "@components/icons/IconSparks.astro";
 
-import histBg from "@assets/images/sections/tcgv-history-general-1600.webp";
+import histBg from "@assets/images/sections/tcgv-history-general-1600.avif";
 import clayBg from "@assets/images/backgrounds/tcgv-bg-clay-1920.webp";
 import greenBg from "@assets/images/backgrounds/tcgv-bg-green-1920.webp";
 import card1 from "@assets/images/cards/tcgv-card-tenniscourt-800.webp";

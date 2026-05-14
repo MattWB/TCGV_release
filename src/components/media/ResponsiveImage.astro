@@ -2,8 +2,8 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
-type Kind = "card" | "card-wide" | "thumb" | "icon" | "section" | "hero";
-type ImgLoading = "eager" | "lazy" | "auto";
+type Kind = "card" | "card-wide" | "thumb" | "icon" | "section" | "hero" | "hero-lcp";
+type ImgLoading = "eager" | "lazy" | null | undefined;
 
 const PRESETS = {
   card: {
@@ -32,7 +32,12 @@ const PRESETS = {
     loading: "lazy",
   },
   hero: {
-    widths: [768, 1200, 1600],
+    widths: [640, 960, 1280, 1536],
+    sizes: "100vw",
+    loading: "eager",
+  },
+  "hero-lcp": {
+    widths: [640, 960, 1200],
     sizes: "100vw",
     loading: "eager",
   },
@@ -47,6 +52,8 @@ type Props = {
   loading?: ImgLoading;
   format?: "webp" | "avif" | "png" | "jpg" | "jpeg";
   class?: string;
+  fetchpriority?: "high" | "low" | "auto";
+  decoding?: "sync" | "async" | "auto";
 };
 
 const {
@@ -56,22 +63,28 @@ const {
   widths,
   sizes,
   loading,
-  format = "webp",
+  format,
   class: className = "w-full h-auto",
+  fetchpriority,
+  decoding,
 } = Astro.props;
 
-const preset = PRESETS[kind];
+const preset = PRESETS[kind] || PRESETS.card;
+
 const effectiveWidths = widths?.length ? widths : [...preset.widths];
 const effectiveSizes = sizes ?? preset.sizes;
 const effectiveLoading = loading ?? preset.loading;
+const effectiveFormat = format ?? (src.format === "avif" ? "avif" : undefined);
 ---
 
 <Image
   src={src}
   alt={alt}
   widths={effectiveWidths}
-  format={format}
   sizes={effectiveSizes}
+  format={effectiveFormat}
   loading={effectiveLoading}
+  fetchpriority={fetchpriority || (effectiveLoading === "eager" ? "high" : "auto")}
+  decoding={decoding || (effectiveLoading === "eager" ? "sync" : "async")}
   class={className}
 />

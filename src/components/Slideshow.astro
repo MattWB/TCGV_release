@@ -5,11 +5,11 @@ import ResponsiveImage from "../components/media/ResponsiveImage.astro";
 import IconChevron from "@components/icons/IconChevronRight.astro";
 
 // IMAGES
-import slide1 from "@assets/images/gallery/tcgv-gallery-slide-item1-1920.webp";
-import slide2 from "@assets/images/gallery/tcgv-gallery-slide-item2-1920.webp";
-import slide3 from "@assets/images/gallery/tcgv-gallery-slide-item3-1920.webp";
-import slide4 from "@assets/images/gallery/tcgv-gallery-slide-item4-1920.webp";
-import slide5 from "@assets/images/gallery/tcgv-gallery-slide-item5-1920.webp";
+import slide1 from "@assets/images/gallery/tcgv-gallery-slide-item1-1920.avif";
+import slide2 from "@assets/images/gallery/tcgv-gallery-slide-item2-1920.avif";
+import slide3 from "@assets/images/gallery/tcgv-gallery-slide-item3-1920.avif";
+import slide4 from "@assets/images/gallery/tcgv-gallery-slide-item4-1920.avif";
+import slide5 from "@assets/images/gallery/tcgv-gallery-slide-item5-1920.avif";
 
 const slides = [
   slide1,
@@ -31,9 +31,10 @@ const slides = [
         <ResponsiveImage
           src={slide}
           alt="Photo de la galerie d'images du TCGV"
-          kind="section"
+          kind="hero-lcp"
           loading={index === 0 ? "eager" : "lazy"}
           class="w-full h-full object-cover object-center"
+          format="avif"
         />
       </div>
     ))}
@@ -50,7 +51,7 @@ const slides = [
     ))}
   </div>
 
-  <button type="button" class="absolute top-0 left-0 z-50 grid place-items-center w-12 h-full px-2 text-white/90 hover:cursor-pointer" data-carousel-prev aria-label="Slide prÃ©cÃ©dente"><span class="grid place-items-center w-9 h-9 rounded-full bg-black/25 ring-1 ring-white/15 backdrop-blur-sm rotate-180"><IconChevron class="tcgv-icon" aria-hidden="true" /></span></button>
+  <button type="button" class="absolute top-0 left-0 z-50 grid place-items-center w-12 h-full px-2 text-white/90 hover:cursor-pointer" data-carousel-prev aria-label="Slide précédente"><span class="grid place-items-center w-9 h-9 rounded-full bg-black/25 ring-1 ring-white/15 backdrop-blur-sm rotate-180"><IconChevron class="tcgv-icon" aria-hidden="true" /></span></button>
   <button type="button" class="absolute top-0 right-0 z-50 grid place-items-center w-12 h-full px-2 text-white/90 hover:cursor-pointer" data-carousel-next aria-label="Slide suivante"><span class="grid place-items-center w-9 h-9 rounded-full bg-black/25 ring-1 ring-white/15 backdrop-blur-sm"><IconChevron class="tcgv-icon" aria-hidden="true" /></span></button>
 </div>
 
