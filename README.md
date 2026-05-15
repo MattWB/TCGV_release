@@ -1,6 +1,6 @@
 # 🎾 TCGV — Tennis Club du Grand Versailles
 
-Site vitrine du Tennis Club du Grand Versailles, conçu comme une plateforme moderne, performante et accessible, centrée sur l’information et l’expérience utilisateur.
+Site vitrine du Tennis Club du Grand Versailles, conçu avec une approche orientée performance, accessibilité et expérience utilisateur.
 
 ## 🌐 Démo
 
@@ -26,8 +26,51 @@ L’ensemble est pensé pour une navigation fluide, mobile-first, avec un minimu
 
 - Astro (Static Site Generator)
 - Tailwind CSS v4
-- React (islands ciblées uniquement)
+- React Islands (interactivité ciblée uniquement)
 - Flowbite (composants interactifs JS, ex : carousel)
+
+---
+
+## 📊 Performance & Metrics
+
+Le projet a été conçu avec une attention particulière portée aux performances frontend, aux Core Web Vitals, à l’accessibilité et à la sobriété de chargement.
+
+Validation réalisée avec :
+
+- Lighthouse
+- PageSpeed Insights
+- WebPageTest
+
+Résultats observés sur environnement réel de test (desktop & mobile) :
+
+- Lighthouse : 96–100 selon configuration et réseau
+- Core Web Vitals dans les seuils “Good”
+- JavaScript client limité grâce à l’architecture Astro + React Islands
+- Temps de chargement et stabilité visuelle optimisés (LCP / CLS)
+
+### WebPageTest — Summary
+
+![WebPageTest Summary](./docs/performances/wpt-summary.webp)
+
+### Lighthouse Audit
+
+![Lighthouse Audit](./docs/performances/wpt-lighthouse.webp)
+
+### Asset Optimization
+
+![Asset Optimization](./docs/performances/wpt-assets.webp)
+
+### Mobile Performance (4G)
+
+Tests réalisés sur profil mobile simulé (iPhone 15 / 4G).
+
+- Lighthouse Performance : 96
+- Accessibility / Best Practices / SEO : 100
+- LCP ≈ 2.26s
+- CLS ≈ 0.09
+- Total Blocking Time : 0ms
+
+![Mobile Performance](./docs/performances/wpt-mobile-summary.webp)
 
 ---
 
@@ -82,14 +125,14 @@ public/          → assets statiques
 - Performance (SSG + JS minimal)
 - Design system cohérent (TCGV)
 - Accessibilité et responsive design
-- Maintenabilité (architecture modulaire Astro)
+- Architecture frontend modulaire et maintenable
 
 ---
 
 ## ⚠️ Notes
 
 - Le projet inclut volontairement des **flows simulés** (connexion, inscription, contact)
-- Ces interactions utilisent des toasts et ne reposent pas sur un backend réel
+- Certaines interactions utilisateur sont simulées côté client et ne reposent pas sur un backend réel
 - Cette approche est intentionnelle pour un projet vitrine statique
 
 ---
