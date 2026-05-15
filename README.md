@@ -70,7 +70,7 @@ Tests réalisés sur profil mobile simulé (iPhone 15 / 4G).
 - CLS ≈ 0.09
 - Total Blocking Time : 0ms
 
-![Mobile Performance](./docs/performances/wpt-mobile-summary.webp)
+![Mobile Performance](./docs/performances/wpt-summary-mobile.webp)
 
 ---
 
