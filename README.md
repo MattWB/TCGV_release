@@ -76,7 +76,7 @@ Tests réalisés sur profil mobile simulé (iPhone 15 / 4G).
 
 ## Dernière évolution
 
-### v0.2 — Refactorisation du tunnel d’inscription
+### v0.2 - Refactorisation du tunnel d’inscription
 
 La version `v0.2` améliore la structure interne du tunnel d’inscription React.
 
