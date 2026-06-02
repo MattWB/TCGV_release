@@ -70,7 +70,21 @@ Tests réalisés sur profil mobile simulé (iPhone 15 / 4G).
 - CLS ≈ 0.09
 - Total Blocking Time : 0ms
 
-![Mobile Performance](./docs/performances/wpt-mobile-summary.webp)
+![Mobile Performance](./docs/performances/wpt-summary-mobile.webp)
+
+---
+
+## Dernière évolution
+
+### v0.2 — Refactorisation du tunnel d’inscription
+
+La version `v0.2` améliore la structure interne du tunnel d’inscription React.
+
+Le composant principal `SubscriptionFlow.tsx` a été allégé et transformé en orchestrateur plus déclaratif, avec une séparation plus claire entre les composants de rendu, les helpers et la logique du flow via `useSubscriptionFlow`.
+
+Cette évolution améliore la lisibilité et la maintenabilité du code tout en conservant le comportement utilisateur, le design Tailwind et les attributs d’accessibilité existants.
+
+La branche publique reste volontairement centrée sur une version stable, reproductible et cohérente du projet.
 
 ---
 
