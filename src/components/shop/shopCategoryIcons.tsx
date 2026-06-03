@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { ShopCategory as ProductCategory } from "../../data/shopItems";
+import type { ProductCategory } from "../../data/shopItems";
 
 type IconProps = {
   className?: string;
@@ -46,12 +46,13 @@ function IconClub(props: IconProps) {
   );
 }
 
-export const categoryIcons: Record<ProductCategory, ComponentType<IconProps>> = {
+export const categoryIcons: Record<
+  ProductCategory,
+  ComponentType<IconProps>
+> = {
   raquettes: IconTennisRacket,
   balles: IconTennisBall,
   vetements: IconDress,
   accessoires: IconVisor,
   goodies: IconClub,
 };
-
-

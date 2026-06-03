@@ -6,23 +6,25 @@ import IconVisor from "@components/icons/IconVisor.astro";
 import IconClub from "@components/icons/IconClub.astro";
 import IconParcel from "@components/icons/IconParcel.astro";
 
-import type { ShopCategory, ShopItem } from "./shopItems";
+import type { ProductCategory, ShopItem } from "./shopItems";
 
 export const hero = {
   title: "Boutique du Club",
   subtitle: "Equipements premium et goodies exclusifs",
-  lead:
-    "Découvrez notre sélection d'équipements de qualité professionnelle issus de nos partenaires, ainsi que nos goodies exclusifs aux couleurs du club. Tous les articles sont disponibles directement au pro-shop avec retrait sur place.",
+  lead: "Découvrez notre sélection d'équipements de qualité professionnelle issus de nos partenaires, ainsi que nos goodies exclusifs aux couleurs du club. Tous les articles sont disponibles directement au pro-shop avec retrait sur place.",
   reassurance: [
     "Retrait gratuit au club",
     "-10% membres Excellence & Prestige",
   ],
   ctas: {
-    primary: { label: "Découvrir les articles", href: "#articles" }
+    primary: { label: "Découvrir les articles", href: "#articles" },
   },
 };
 
-export const categoryMeta: Record<ShopCategory, { label: string; Icon: any }> = {
+export const categoryMeta: Record<
+  ProductCategory,
+  { label: string; Icon: any }
+> = {
   raquettes: { label: "Raquettes", Icon: IconTennisRacket },
   balles: { label: "Balles", Icon: IconTennisBall },
   vetements: { label: "Vêtements", Icon: IconDress },
@@ -30,7 +32,7 @@ export const categoryMeta: Record<ShopCategory, { label: string; Icon: any }> = 
   goodies: { label: "Goodies Club", Icon: IconClub },
 };
 
-export const categoryOrder: ShopCategory[] = [
+export const categoryOrder: ProductCategory[] = [
   "raquettes",
   "balles",
   "vetements",
@@ -53,7 +55,8 @@ export const services = [
   },
   {
     title: "Conseils Experts",
-    description: "Notre équipe vous guide pour choisir l'équipement adapté à votre niveau.",
+    description:
+      "Notre équipe vous guide pour choisir l'équipement adapté à votre niveau.",
     Icon: IconUsers,
   },
 ];
@@ -63,7 +66,7 @@ export const practical = {
   items: [
     "Retrait gratuit au pro-shop pendant les horaires d'ouverture.",
     "Essayage possible au club selon disponibilité des tailles.",
-    "Accompagnement de l'equipe pour le choix du matériel."
+    "Accompagnement de l'equipe pour le choix du matériel.",
   ],
   proShop: [
     "Lundi - Vendredi : 9h - 18h",

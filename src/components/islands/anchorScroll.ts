@@ -5,11 +5,19 @@ export function getAnchorScrollBehavior(): ScrollBehavior {
   return "smooth";
 }
 
+export function scrollElementIntoView(
+  element: Element,
+  options: ScrollIntoViewOptions = {},
+): void {
+  element.scrollIntoView({
+    behavior: getAnchorScrollBehavior(),
+    block: "start",
+    ...options,
+  });
+}
+
 export function scrollToAnchorById(anchorId: string): void {
   const anchor = document.getElementById(anchorId);
   if (!anchor) return;
-  anchor.scrollIntoView({
-    behavior: getAnchorScrollBehavior(),
-    block: "start",
-  });
+  scrollElementIntoView(anchor);
 }

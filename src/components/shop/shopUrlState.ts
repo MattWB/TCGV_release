@@ -3,6 +3,10 @@ export type SortKey = "name-asc" | "price-asc" | "price-desc";
 export type UrlState<Cat extends string> = {
   category: Cat;
   query: string;
+  /*
+   * Pagination is URL-ready but not rendered yet. Keep it internal to URL/state
+   * helpers until pagination controls are introduced.
+   */
   page: number;
 };
 
@@ -27,7 +31,10 @@ export function parsePage(value: string | null): number {
   return parsed;
 }
 
-export function parseSort(search: string, validSortSet: Set<SortKey>): SortKey {
+export function parseSort(
+  search: string,
+  validSortSet: ReadonlySet<SortKey>,
+): SortKey {
   const params = new URLSearchParams(search);
   const rawSort = normalizeSearchText(
     params.get("s") ?? DEFAULT_SORT,

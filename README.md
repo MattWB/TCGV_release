@@ -74,7 +74,30 @@ Tests réalisés sur profil mobile simulé (iPhone 15 / 4G).
 
 ---
 
-## Dernière évolution
+## Dernières évolutions
+
+### v0.2.1 - Refactorisation du catalogue boutique
+
+La version `v0.2.1` poursuit le travail de structuration du code avec une refactorisation interne du catalogue boutique.
+
+Le composant React principal `ShopCatalog`, auparavant plus monolithique, a été découpé en responsabilités plus claires :
+
+- orchestration générale du catalogue ;
+- contrôles de filtre, recherche et tri ;
+- affichage du nombre de résultats, de la grille produits et de l’état vide ;
+- synchronisation entre l’état de l’interface et l’URL ;
+- helpers dédiés au filtrage et au tri des produits ;
+- configuration typée du catalogue boutique.
+
+Cette évolution améliore la lisibilité et la maintenabilité du code sans modifier l’expérience utilisateur existante.
+
+La gestion des catégories produits a également été clarifiée en s’appuyant directement sur le type `ProductCategory`, afin d’éviter des alias spécifiques inutiles.
+
+Une optimisation a été ajoutée pour stabiliser le viewport lors des recherches et filtrages dans la boutique. Elle permet d’éviter des sauts de scroll ou des affichages non souhaités lorsque la hauteur de la grille de résultats varie.
+
+L’état de pagination est désormais préparé en interne pour une future évolution, sans être encore exposé dans l’interface publique.
+
+La branche publique reste volontairement centrée sur une version stable, reproductible et cohérente du projet. Les validations techniques et artefacts de développement sont intégrés uniquement lorsqu’ils sont pleinement alignés avec l’état de release publié.
 
 ### v0.2 - Refactorisation du tunnel d’inscription
 

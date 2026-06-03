@@ -10,7 +10,7 @@ import capImg from "@images/cards/tcgv-card-shop-cap-800.webp";
 import bottleImg from "@images/cards/tcgv-card-shop-bottle-800.webp";
 import accessImg from "@images/cards/tcgv-card-shop-accessories-800.webp";
 
-export type ShopCategory =
+export type ProductCategory =
   | "raquettes"
   | "balles"
   | "vetements"
@@ -21,7 +21,7 @@ export type ShopItem = {
   id: number;
   name: string;
   description: string;
-  category: ShopCategory;
+  category: ProductCategory;
   badge?: string;
   priceCents: number;
   priceLabel: string;
