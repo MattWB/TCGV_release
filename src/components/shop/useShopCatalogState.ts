@@ -24,7 +24,7 @@ import {
   parseSort,
   parseUrlState,
 } from "./shopUrlState";
-import { useShopCatalogViewportStability } from "./useShopCatalogViewportStability";
+import { useViewportStability } from "../useViewportStability";
 
 type ShopCatalogState = {
   catalogRef: RefObject<HTMLElement | null>;
@@ -186,8 +186,8 @@ export function useShopCatalogState(items: ShopItemClient[]): ShopCatalogState {
       sort,
     );
   }, [items, category, debouncedQuery, sort]);
-  const { catalogRef, requestViewportStabilization } =
-    useShopCatalogViewportStability({
+  const { containerRef: catalogRef, requestViewportStabilization } =
+    useViewportStability({
       watchKey: `${category}:${debouncedQuery}:${sort}:${results.length}`,
     });
 
