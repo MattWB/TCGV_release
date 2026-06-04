@@ -76,6 +76,33 @@ Tests réalisés sur profil mobile simulé (iPhone 15 / 4G).
 
 ## Dernières évolutions
 
+### v0.2.2 - Refactorisation du fil d’actualités
+
+La version `v0.2.2` poursuit la structuration progressive des islands React avec une refactorisation interne du fil d’actualités.
+
+Le composant principal `NewsFeed`, auparavant plus dense, a été réorganisé autour de responsabilités plus claires :
+
+- synchronisation entre l’état de l’interface et l’URL ;
+- parsing et sérialisation des paramètres de recherche ;
+- gestion de la catégorie, de la recherche et de la pagination ;
+- filtrage des actualités par catégorie et recherche texte ;
+- sélection de l’actualité mise en avant ;
+- calcul des résultats paginés ;
+- extraction des contrôles, cartes d’articles, article mis en avant et pagination ;
+- stabilisation du viewport lors des changements de résultats.
+
+Cette évolution améliore la lisibilité et la maintenabilité du code sans modifier l’expérience utilisateur existante.
+
+La gestion de la pagination a été fiabilisée afin d’éviter qu’une page invalide ou hors limites reste visible dans l’URL lorsque le nombre de résultats change. L’état affiché et les paramètres d’URL restent ainsi cohérents.
+
+Les helpers liés à l’URL et aux résultats ont été isolés afin de rendre la logique plus explicite et plus facilement vérifiable. La recherche, la catégorie active, la page courante et les résultats affichés sont désormais mieux séparés du rendu visuel.
+
+Une logique de stabilisation du viewport a également été ajoutée ou mutualisée afin d’éviter des sauts de scroll ou des variations d’affichage non souhaitées lors des recherches, changements de catégorie ou changements de page.
+
+Cette refactorisation reste volontairement raisonnable : elle n’introduit pas de Context, de `useReducer` ou d’abstraction globale inutile. Les extractions restent ciblées sur le périmètre du fil d’actualités.
+
+La branche publique reste volontairement centrée sur une version stable, reproductible et cohérente du projet. Les validations techniques et artefacts de développement sont intégrés uniquement lorsqu’ils sont pleinement alignés avec l’état de release publié.
+
 ### v0.2.1 - Refactorisation du catalogue boutique
 
 La version `v0.2.1` poursuit le travail de structuration du code avec une refactorisation interne du catalogue boutique.
